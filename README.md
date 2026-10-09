@@ -88,6 +88,7 @@ git push -u origin main
 - **Cargos del Hospital Central**: `js/app.js` → `CARGOS` (de Director/a General a En prácticas, con opción de escribir otro).
 - **Rangos de cada facción**: `js/app.js` → `RANGOS`. El desplegable incluye la opción "Otro (escribir a mano)" para rangos que no estén en la lista.
 - **Frases del criterio**: `js/preguntas.js` → `COMPETENCIAS` (fortaleza / refuerzo) y `js/evaluacion.js` → `redactarCriterio`.
+- **Tipografías del certificado**: Fraunces (títulos), Questrial (texto) y Pinyon Script (firma), todas gratuitas de Google Fonts. Se cambian en `js/certificado.js` (`FUENTE_TITULO`, `FUENTE_TEXTO`, `FUENTE_FIRMA`) y en el enlace de fuentes de `index.html`.
 - **Logo, sello y escudos**: reemplaza los PNG de `assets/` y `assets/facciones/` manteniendo el nombre.
 
 ---

@@ -1,8 +1,3 @@
-/* Tipografías del certificado (Benguiat Bk BT para títulos, BenguiatGot Bk BT para texto) */
-@font-face { font-family: "Benguiat Bk BT"; src: url("../assets/fonts/benguiat-bk-bt-bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: "BenguiatGot Bk BT"; src: url("../assets/fonts/benguiatgot-bk-bt.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "BenguiatGot Bk BT"; src: url("../assets/fonts/benguiatgot-bk-bt-bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
-
 /* Layout: cabecera institucional azul marino + columna única de formulario clínico, ancho 860px */
 :root {
   --bg: #EEF2F6;

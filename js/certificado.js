@@ -4,8 +4,8 @@
  *
  * Diseño: cabecera y pie con los colores de la facción del agente, ficha tipo
  * credencial, competencias con barras, observaciones y línea de validez.
- * Tipografías: Benguiat Bk BT Bold (títulos) y BenguiatGot Bk BT (texto),
- * declaradas en css/styles.css y guardadas en assets/fonts.
+ * Tipografías (Google Fonts, gratuitas): Fraunces Black suave para los títulos,
+ * Questrial para el texto y Pinyon Script para la firma. Se cargan desde index.html.
  */
 
 const CERT = { W: 1224, H: 2016, M: 80 };
@@ -27,9 +27,11 @@ const CERT_COLORES = {
   ok: "#1E7F4F", okFondo: "#E6F4EC", mal: "#B3261E", malFondo: "#FBE9E7", firma: "#1B2E6B",
 };
 
-const FUENTE_TITULO = '"Benguiat Bk BT", "Lora", Georgia, serif';
-const FUENTE_TEXTO = '"BenguiatGot Bk BT", "Lora", Georgia, serif';
-const FUENTE_FIRMA = '"Dancing Script", "Brush Script MT", cursive';
+const FUENTE_TITULO = '"Fraunces", Georgia, serif';
+const PESO_TITULO = "800";
+const FUENTE_TEXTO = '"Questrial", "Segoe UI", Arial, sans-serif';
+const FUENTE_FIRMA = '"Pinyon Script", "Edwardian Script ITC", cursive';
+const FAMILIA_FIRMA = "Pinyon Script";
 
 const _imgCache = {};
 function cargarImagen(src) {
@@ -47,7 +49,7 @@ function cargarImagen(src) {
 async function cargarFuentesCertificado() {
   if (!document.fonts) return;
   const pedidas = [
-    `700 40px ${FUENTE_TITULO}`, `400 20px ${FUENTE_TEXTO}`, `700 20px ${FUENTE_TEXTO}`, `600 40px ${FUENTE_FIRMA}`,
+    `${PESO_TITULO} 40px ${FUENTE_TITULO}`, `400 20px ${FUENTE_TEXTO}`, `400 40px ${FUENTE_FIRMA}`,
   ];
   try { await Promise.all(pedidas.map((f) => document.fonts.load(f))); } catch (e) { /* se usan las fuentes de respaldo */ }
 }
@@ -150,11 +152,11 @@ async function dibujarCertificado(canvas, datos, recursos) {
   imagenCentrada(logo, 70 + 105, 180, 210);
   imagenCentrada(escudo, W - 70 - 105, 180, 220);
   texto("HOSPITAL CENTRAL · EMS", W / 2, 130, { px: 21, peso: "700", color: col.f2, align: "center", esp: 6 });
-  texto("PSICOTÉCNICO", W / 2, 212, { px: 66, peso: "700", fam: FUENTE_TITULO, color: "#FFFFFF", align: "center", esp: 2 });
+  texto("PSICOTÉCNICO", W / 2, 212, { px: 66, peso: PESO_TITULO, fam: FUENTE_TITULO, color: "#FFFFFF", align: "center", esp: 2 });
   texto((FACCIONES[datos.faccion] || "").toUpperCase(), W / 2, 262, { px: 22, color: "rgba(255,255,255,.86)", align: "center", esp: 3 });
 
   // ── Título del documento ──
-  texto("CERTIFICADO DE APTITUD", W / 2, 452, { px: 38, peso: "700", fam: FUENTE_TITULO, color: col.f1, align: "center", esp: 5 });
+  texto("CERTIFICADO DE APTITUD", W / 2, 452, { px: 38, peso: PESO_TITULO, fam: FUENTE_TITULO, color: col.f1, align: "center", esp: 5 });
   texto("Departamento de Salud Mental y Evaluación Psicológica", W / 2, 490, { px: 20, color: CERT_COLORES.gris, align: "center" });
 
   // ── Ficha del agente ──
@@ -165,10 +167,10 @@ async function dibujarCertificado(canvas, datos, recursos) {
   rect(M + 26, fy + 26, 170, fh - 52, 10, col.f1);
   imagenCentrada(escudo || logo, M + 26 + 85, fy + fh / 2, 130);
   const fx = M + 230;
-  fuente(46, "700", FUENTE_TITULO);
+  fuente(46, PESO_TITULO, FUENTE_TITULO);
   let nombre = datos.nombre || "";
   while (ctx.measureText(nombre).width > W - M - fx - 20 && nombre.length > 3) nombre = nombre.slice(0, -2) + "…";
-  texto(nombre, fx, fy + 76, { px: 46, peso: "700", fam: FUENTE_TITULO });
+  texto(nombre, fx, fy + 76, { px: 46, peso: PESO_TITULO, fam: FUENTE_TITULO });
   texto(`${datos.rango || ""} · ${datos.faccion || ""}`, fx, fy + 112, { px: 24, peso: "700", color: col.f1 });
   const filas = [
     ["ID / Placa", datos.placa || "—"],
@@ -186,12 +188,12 @@ async function dibujarCertificado(canvas, datos, recursos) {
   rect(M, ry, rw, rh, 14, colorRes);
   texto("RESULTADO FINAL", M + 30, ry + 40, { px: 17, peso: "700", color: "rgba(255,255,255,.85)", esp: 3.5 });
   if (datos.apto) check(M + 30, ry + 60, 40, "#FFFFFF"); else cruz(M + 34, ry + 64, 32, "#FFFFFF");
-  texto(datos.apto ? "APTO/A" : "NO APTO/A", M + 92, ry + 100, { px: 44, peso: "700", fam: FUENTE_TITULO, color: "#FFFFFF", esp: 1.5 });
+  texto(datos.apto ? "APTO/A" : "NO APTO/A", M + 92, ry + 100, { px: 44, peso: PESO_TITULO, fam: FUENTE_TITULO, color: "#FFFFFF", esp: 1.5 });
   const px2 = M + rw + 26;
   rect(px2, ry, rw, rh, 14, "#FFFFFF", colorRes, 2.5);
   texto("PUNTUACIÓN", px2 + 30, ry + 46, { px: 17, peso: "700", color: CERT_COLORES.gris, esp: 3.5 });
   if (datos.puntos != null) texto(`${datos.puntos} / ${datos.maximo} puntos`, px2 + 30, ry + 82, { px: 21 });
-  texto(`${datos.puntuacion ?? "—"}%`, px2 + rw - 30, ry + 96, { px: 70, peso: "700", fam: FUENTE_TITULO, color: colorRes, align: "right" });
+  texto(`${datos.puntuacion ?? "—"}%`, px2 + rw - 30, ry + 96, { px: 70, peso: PESO_TITULO, fam: FUENTE_TITULO, color: colorRes, align: "right" });
 
   // ── Competencias evaluadas ──
   tituloSeccion("COMPETENCIAS EVALUADAS", 984);
@@ -234,8 +236,8 @@ async function dibujarCertificado(canvas, datos, recursos) {
   tituloSeccion("PROFESIONAL RESPONSABLE", 1730);
   const sy = 1870;
   if (datos.firma) {
-    const hayCursiva = !!document.fonts && [...document.fonts].some((f) => f.family.replace(/["']/g, "") === "Dancing Script" && f.status === "loaded");
-    ctx.font = hayCursiva ? `600 50px ${FUENTE_FIRMA}` : `italic 400 42px Georgia, serif`;
+    const hayCursiva = !!document.fonts && [...document.fonts].some((f) => f.family.replace(/["']/g, "") === FAMILIA_FIRMA && f.status === "loaded");
+    ctx.font = hayCursiva ? `400 62px ${FUENTE_FIRMA}` : `italic 400 42px Georgia, serif`;
     ctx.fillStyle = CERT_COLORES.firma;
     ctx.fillText(datos.firma, M + 10, sy - 8);
   }
