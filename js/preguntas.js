@@ -2,7 +2,7 @@
  * Banco de preguntas del Psicotécnico — Hospital Central (EMS)
  * ------------------------------------------------------------
  * 60 preguntas situacionales basadas en las normativas vigentes de Jerarquía RP:
- *   Normativa Policial, Organizaciones Criminales, Secuestros, Robos,
+ *   Normativa General, Policial, Organizaciones Criminales, Secuestros, Robos,
  *   Puntos Calientes y Vehículos de Guerra.
  * Hay 10 preguntas por cada competencia.
  *
@@ -100,11 +100,11 @@ const BANCO = [
     ["Pregunto a jefatura qué necesito para recuperar mi posición.", 2],
     ["Me quejo en público de que es una injusticia.", 1],
     ["Abandono la facción sin avisar a nadie.", 0]] },
-  { c: "estabilidad", t: "Un civil te graba con el móvil y se ríe de ti durante una detención.", o: [
-    ["Sigo con la detención con normalidad, sin entrar en provocaciones.", 3],
-    ["Le pido que mantenga la distancia para no interferir.", 2],
-    ["Le respondo con sarcasmo mientras esposo al detenido.", 1],
-    ["Lo detengo también por interferir, aunque en realidad no ha cometido ningún delito.", 0]] },
+  { c: "estabilidad", t: "Patrullas en binomio y seis atracadores armados os rodean y os apuntan.", o: [
+    ["Valoro mi vida: levanto las manos y me rindo.", 3],
+    ["Intento ganar tiempo hablando, sin hacer movimientos bruscos.", 2],
+    ["Pido refuerzos por radio a escondidas mientras me apuntan.", 1],
+    ["Desenfundo y abro fuego, aunque estemos en clara inferioridad.", 0]] },
 
   // ───────────── MANEJO DEL ESTRÉS ─────────────
   { c: "estres", t: "En el robo al Banco Central (DEFCON 1) el tiroteo se alarga y la tensión es máxima.", o: [
@@ -147,11 +147,11 @@ const BANCO = [
     ["Dejo la negociación al agente con más experiencia y le apoyo.", 2],
     ["Acepto la primera propuesta para no alargarlo.", 1],
     ["Ordeno asaltar sin negociar, aunque la negociación es obligatoria.", 0]] },
-  { c: "estres", t: "Llevas varios robos seguidos en tu turno, estás agotado y entra otro aviso.", o: [
-    ["Valoro si estoy en condiciones y, si no, aviso para que vaya otra unidad.", 3],
-    ["Acudo igualmente aunque esté agotado, porque no quiero dejar a mis compañeros solos.", 2],
-    ["Acudo, pero lo resuelvo deprisa para irme.", 1],
-    ["Ignoro el aviso.", 0]] },
+  { c: "estres", t: "En pleno rol tenso, un jugador te escribe por /ooc quejándose de tu actuación.", o: [
+    ["Sigo con el rol y, si hay un problema, se resuelve al terminar.", 3],
+    ["Le respondo brevemente por /ooc y sigo interpretando a mi personaje.", 2],
+    ["Discuto con él por /ooc mientras el rol continúa.", 1],
+    ["Corto el rol para discutir con él fuera de personaje.", 0]] },
   { c: "estres", t: "En el robo a un Flecca, uno de los rehenes entra en pánico.", o: [
     ["Transmito calma y sigo la negociación pensando en su seguridad.", 3],
     ["Le pido que se tranquilice y espere instrucciones.", 2],
@@ -174,16 +174,16 @@ const BANCO = [
     ["Acuden 3 policías y piden el helicóptero por si huyen.", 2],
     ["Acuden 5 policías para asegurar la zona.", 1],
     ["Acude toda la comisaría con armas largas.", 0]] },
-  { c: "decisiones", t: "Se activa un robo en un Flecca. ¿Cómo organizas la respuesta?", o: [
-    ["De 4 a 5 policías, con un tirador como máximo.", 3],
-    ["5 policías, sin ningún tirador.", 2],
-    ["7 policías y dos tiradores, para asegurarnos de que no escapen.", 1],
-    ["Acudo yo solo para no perder tiempo.", 0]] },
-  { c: "decisiones", t: "Quieres sacar el Interceptor. ¿Cuándo está permitido?", o: [
-    ["Con 3 o más compañeros patrullando y un motivo previo.", 3],
-    ["Siempre que el H-50 lo autorice expresamente, haya o no compañeros patrullando.", 2],
-    ["Siempre que quiera patrullar más rápido.", 1],
-    ["Para hacer carreras por la ciudad en servicio.", 0]] },
+  { c: "decisiones", t: "Ves en /socialanon un mensaje vendiendo armas que dice \"con VPN, imposible de rastrear\".", o: [
+    ["Se puede rastrear igualmente, porque describe una acción ilegal explícita.", 3],
+    ["Lo comunico a jefatura para que valoren si se rastrea.", 2],
+    ["No se puede rastrear porque menciona una VPN.", 1],
+    ["Quedo con él haciéndome pasar por comprador y lo abato sin más.", 0]] },
+  { c: "decisiones", t: "La persona a la que investigas está dentro de un gimnasio.", o: [
+    ["Espero a que salga; en zona segura no se inicia un rol agresivo.", 3],
+    ["La vigilo desde fuera y aviso a mis compañeros de su posición.", 2],
+    ["Entro y la detengo a la fuerza dentro del gimnasio.", 1],
+    ["Entro a por ella con el arma desenfundada.", 0]] },
   { c: "decisiones", t: "Llegan entornos de vehículos de guerra en el norte. ¿Qué hace la policía?", o: [
     ["Puede usar vehículos militares en el norte, avisándolo y en DEFCON 1.", 3],
     ["Pide refuerzos a todas las unidades y espera órdenes de jefatura sin sacar ningún vehículo.", 2],
@@ -246,11 +246,11 @@ const BANCO = [
     ["Lo anoto en el informe al terminar el servicio.", 2],
     ["Me lo guardo para seguirlo yo más tarde.", 1],
     ["No lo comunico para llevarme el mérito.", 0]] },
-  { c: "equipo", t: "Patrullas con un cadete que comete errores durante su semana de prueba.", o: [
-    ["Le explico en privado cómo hacerlo y le doy margen para mejorar.", 3],
-    ["Informo a mis superiores para que lo valoren.", 2],
-    ["Lo corrijo delante de los civiles.", 1],
-    ["Me burlo de él por radio.", 0]] },
+  { c: "equipo", t: "Un compañero te pasa por Discord la ubicación de un sospechoso que ha visto fuera del rol.", o: [
+    ["No uso esa información y le recuerdo que eso es metagaming.", 3],
+    ["No la uso, aunque prefiero no decirle nada para no crear mal ambiente.", 2],
+    ["La uso solo para patrullar cerca de esa zona.", 1],
+    ["Vamos directos a por él con esa información.", 0]] },
   { c: "equipo", t: "Un compañero va a disparar a un sospechoso desarmado que huye de espaldas.", o: [
     ["Le aviso de que no puede disparar y le pido que pare.", 3],
     ["No intervengo en ese momento, pero lo reporto a jefatura al terminar el operativo.", 2],
@@ -298,11 +298,11 @@ const BANCO = [
     ["Pido orientación a la administración y me cambio en cuanto me den el visto bueno.", 2],
     ["Me cambio de un día para otro.", 1],
     ["Paso información policial a la organización antes de irme.", 0]] },
-  { c: "integridad", t: "Un compañero propone quitar del informe un detalle que complica el caso.", o: [
-    ["Me niego y lo comunico por la vía correspondiente.", 3],
-    ["Me niego y redacto el informe completo yo mismo.", 2],
-    ["Lo acepto si es un detalle menor que no cambia el fondo del caso.", 1],
-    ["Lo borramos y además ajustamos las horas.", 0]] },
+  { c: "integridad", t: "Descubres un fallo que duplica armas en el armero de la comisaría.", o: [
+    ["Lo reporto de inmediato a la administración y no lo uso.", 3],
+    ["No lo uso y se lo comento a mi jefatura para que ellos decidan qué hacer.", 2],
+    ["Lo pruebo una vez para confirmar que funciona.", 1],
+    ["Lo aprovecho para equipar a toda mi unidad.", 0]] },
   { c: "integridad", t: "Detienes a una persona influyente que exige un trato especial.", o: [
     ["La trato con respeto y con el mismo procedimiento que a cualquiera.", 3],
     ["Consulto a mi superior cómo proceder.", 2],
@@ -350,16 +350,16 @@ const BANCO = [
     ["Reduzco la distancia solo en las rectas, donde hay menos riesgo de chocar.", 2],
     ["Voy pegado para meterle presión.", 1],
     ["Lo embisto en cuanto tengo ocasión.", 0]] },
-  { c: "impulsos", t: "Un sospechoso se resiste pasivamente a ser esposado.", o: [
-    ["Uso la mínima fuerza necesaria y le doy instrucciones claras.", 3],
-    ["Pido ayuda a un compañero para reducirlo entre los dos lo antes posible.", 2],
-    ["Uso el táser de inmediato.", 1],
-    ["Lo golpeo para que aprenda.", 0]] },
-  { c: "impulsos", t: "Un sospechoso ya esposado no deja de insultarte.", o: [
-    ["Lo ignoro y continúo con el traslado.", 3],
-    ["Le pido que se calme o tendrá más cargos.", 2],
-    ["Le aprieto más las esposas.", 1],
-    ["Lo golpeo.", 0]] },
+  { c: "impulsos", t: "Un atracador te dejó inconsciente en un robo y, al recuperarte, lo ves por la calle.", o: [
+    ["No busco venganza; solo actúo si hay un rol nuevo o una investigación.", 3],
+    ["Informo a mis compañeros de que lo he visto.", 2],
+    ["Lo sigo con el coche para ver adónde va.", 1],
+    ["Le disparo por lo que me hizo.", 0]] },
+  { c: "impulsos", t: "Tras un robo, vas de copiloto en un vehículo en marcha durante un tiroteo.", o: [
+    ["Solo disparo a ruedas o carrocería; a matar, con el vehículo parado.", 3],
+    ["Espero a que el vehículo se detenga para disparar.", 2],
+    ["Disparo a los ocupantes solo si ellos me disparan primero.", 1],
+    ["Disparo a matar a los ocupantes en plena marcha.", 0]] },
   { c: "impulsos", t: "Tienes el arma desenfundada y el sospechoso suelta la suya y levanta las manos.", o: [
     ["Mantengo el control verbal y procedo a la detención sin disparar.", 3],
     ["Espero apoyo antes de acercarme.", 2],

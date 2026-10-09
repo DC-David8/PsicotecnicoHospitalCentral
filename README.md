@@ -20,7 +20,7 @@ Herramienta web para el rol del servidor: el personal del **Hospital Central (EM
 | Integridad y ética | 10 |
 | Autocontrol y uso de la fuerza | 10 |
 
-Las 60 preguntas son situaciones del servidor basadas en las **normativas vigentes de Jerarquía RP**: Normativa Policial, Organizaciones Criminales, Secuestros, Robos, Puntos Calientes y Vehículos de Guerra. Incluyen reglas dentro del rol (DEFCON, códigos, derechos del detenido, negociaciones, mínimos de agentes por robo…) y fuera del rol (fairplay, TS3 al estar abatido, vocabulario, adrenalinas en robos pactados…).
+Las 60 preguntas son situaciones del servidor basadas en las **normativas vigentes de Jerarquía RP**: Normativa General, Policial, Organizaciones Criminales, Secuestros, Robos, Puntos Calientes y Vehículos de Guerra. Incluyen reglas dentro del rol (DEFCON, códigos, derechos del detenido, negociaciones, mínimos de agentes por robo…) y fuera del rol (fairplay, TS3 al estar abatido, vocabulario, adrenalinas en robos pactados, metagaming, uso del /ooc, duplicados…).
 
 Cada pregunta tiene 4 respuestas puntuadas de 0 a 3:
 
