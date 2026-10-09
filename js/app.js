@@ -92,13 +92,22 @@
     $("#cargo-sel").innerHTML = `<option value="" disabled selected>Selecciona el cargo</option>` +
       CARGOS.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("") +
       `<option value="${OTRO}">Otro (escribir a mano)</option>`;
-    if (ev) {
+    if (ev && (ev.evaluador || ev.cargo || ev.firma)) {
+      $("#evaluador-recordado").hidden = false;
       $("#evaluador").value = ev.evaluador || "";
       $("#firma").value = ev.firma || "";
       if (CARGOS.includes(ev.cargo)) $("#cargo-sel").value = ev.cargo;
       else if (ev.cargo) { $("#cargo-sel").value = OTRO; $("#cargo").value = ev.cargo; }
     }
     alternarCargoLibre(false);
+    $("#btn-olvidar").addEventListener("click", () => {
+      try { localStorage.removeItem("psico-evaluador"); } catch (e) { /* sin almacenamiento */ }
+      ["#evaluador", "#firma", "#cargo"].forEach((s) => ($(s).value = ""));
+      $("#cargo-sel").value = "";
+      alternarCargoLibre(false);
+      $("#evaluador-recordado").hidden = true;
+      $("#evaluador").focus();
+    });
     $("#cargo-sel").addEventListener("change", () => { $("#cargo-sel").removeAttribute("aria-invalid"); alternarCargoLibre(true); });
     actualizarRangos(); actualizarValidez(); actualizarAyudaNum();
     document.querySelectorAll('input[name="faccion"]').forEach((r) => r.addEventListener("change", actualizarRangos));

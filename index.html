@@ -47,9 +47,9 @@
         </div>
         <div class="rejilla">
           <label class="campo campo-ancho"><span class="etiqueta">Nombre y apellidos</span>
-            <input id="nombre" name="nombre" required autocomplete="off" placeholder="Taymor Travon"></label>
+            <input id="nombre" name="nombre" required autocomplete="off" placeholder="Nombre y apellidos del agente"></label>
           <label class="campo"><span class="etiqueta">ID / Placa</span>
-            <input id="placa" name="placa" required autocomplete="off" placeholder="2608" inputmode="numeric"></label>
+            <input id="placa" name="placa" required autocomplete="off" placeholder="Número de placa" inputmode="numeric"></label>
           <div class="campo"><label class="etiqueta" for="rango-sel">Rango</label>
             <select id="rango-sel" name="rango-sel" required></select>
             <input id="rango" name="rango" autocomplete="off" placeholder="Escribe el rango" aria-label="Rango (escrito a mano)" hidden></div>
@@ -87,14 +87,15 @@
 
       <fieldset class="bloque">
         <legend>Profesional responsable</legend>
+        <p class="recordado" id="evaluador-recordado" hidden>Datos del último evaluador recordados en este navegador. <button type="button" class="btn-texto" id="btn-olvidar">Borrar</button></p>
         <div class="rejilla">
           <label class="campo"><span class="etiqueta">Evaluador/a</span>
-            <input id="evaluador" required autocomplete="off" placeholder="Dr. Josué Pérez"></label>
+            <input id="evaluador" required autocomplete="off" placeholder="Nombre y apellidos del evaluador"></label>
           <div class="campo"><label class="etiqueta" for="cargo-sel">Cargo</label>
             <select id="cargo-sel" name="cargo-sel" required></select>
             <input id="cargo" name="cargo" autocomplete="off" placeholder="Escribe el cargo" aria-label="Cargo (escrito a mano)" hidden></div>
           <label class="campo campo-ancho"><span class="etiqueta">Firma <small>(se rellena con el nombre si la dejas vacía)</small></span>
-            <input id="firma" autocomplete="off" placeholder="Dr. Josué Pérez"></label>
+            <input id="firma" autocomplete="off" placeholder="Igual que el nombre del evaluador"></label>
         </div>
       </fieldset>
 
