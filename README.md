@@ -20,7 +20,18 @@ Herramienta web para el rol del servidor: el personal del **Hospital Central (EM
 | Integridad y ética | 10 |
 | Autocontrol y uso de la fuerza | 10 |
 
-Cada pregunta tiene 4 respuestas puntuadas de 0 a 3 (3 = según protocolo, 0 = incompatible con el servicio).
+Las 60 preguntas son situaciones del servidor basadas en las **normativas vigentes de Jerarquía RP**: Normativa Policial, Organizaciones Criminales, Secuestros, Robos, Puntos Calientes y Vehículos de Guerra. Incluyen reglas dentro del rol (DEFCON, códigos, derechos del detenido, negociaciones, mínimos de agentes por robo…) y fuera del rol (fairplay, TS3 al estar abatido, vocabulario, adrenalinas en robos pactados…).
+
+Cada pregunta tiene 4 respuestas puntuadas de 0 a 3:
+
+- **3**: correcta según la normativa y el protocolo.
+- **2**: aceptable.
+- **1**: poco adecuada o error de normativa.
+- **0**: conducta grave (abuso, corrupción, romper el rol, disparar sin justificación). Cuenta como respuesta incompatible.
+
+La longitud de las respuestas está equilibrada para que la correcta no se pueda adivinar por ser la más larga.
+
+> Si cambia la normativa del servidor, actualiza las preguntas afectadas en `js/preguntas.js`.
 
 ## Cómo se decide APTO / NO APTO
 

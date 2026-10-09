@@ -1,16 +1,23 @@
 /*
  * Banco de preguntas del Psicotécnico — Hospital Central (EMS)
  * ------------------------------------------------------------
- * 60 preguntas situacionales, 10 por cada competencia.
+ * 60 preguntas situacionales basadas en las normativas vigentes de Jerarquía RP:
+ *   Normativa Policial, Organizaciones Criminales, Secuestros, Robos,
+ *   Puntos Calientes y Vehículos de Guerra.
+ * Hay 10 preguntas por cada competencia.
+ *
  * Cada opción lleva una puntuación de 0 a 3:
- *   3 = respuesta ideal según protocolo
+ *   3 = respuesta correcta según la normativa y el protocolo
  *   2 = respuesta aceptable
- *   1 = respuesta poco adecuada
+ *   1 = respuesta poco adecuada o error de normativa
  *   0 = respuesta incompatible con el servicio (cuenta como "alerta")
+ * El 0 se reserva para conductas graves (abuso, corrupción, romper el rol,
+ * disparar sin justificación…). Un simple desconocimiento puntúa 1.
  * El orden de las opciones se baraja al mostrar el examen.
  *
  * Para añadir preguntas: copia un bloque { c, t, o } dentro de BANCO.
  * "c" es la clave de la competencia (ver COMPETENCIAS).
+ * Si cambia la normativa, actualiza aquí las preguntas afectadas.
  */
 
 const COMPETENCIAS = {
@@ -27,7 +34,7 @@ const COMPETENCIAS = {
   decisiones: {
     nombre: "Toma de decisiones",
     fortaleza: "solidez en la toma de decisiones",
-    refuerzo: "la toma de decisiones bajo presión",
+    refuerzo: "la toma de decisiones conforme a la normativa",
   },
   equipo: {
     nombre: "Trabajo en equipo",
@@ -36,8 +43,8 @@ const COMPETENCIAS = {
   },
   integridad: {
     nombre: "Integridad y ética",
-    fortaleza: "integridad y apego al protocolo",
-    refuerzo: "el apego a la ética profesional",
+    fortaleza: "integridad y apego a la normativa",
+    refuerzo: "el apego a la normativa y a la ética profesional",
   },
   impulsos: {
     nombre: "Autocontrol y uso de la fuerza",
@@ -48,314 +55,314 @@ const COMPETENCIAS = {
 
 const BANCO = [
   // ───────────── ESTABILIDAD EMOCIONAL ─────────────
-  { c: "estabilidad", t: "Un ciudadano te insulta repetidamente mientras le redactas una multa. ¿Cómo actúas?", o: [
-    ["Mantengo un tono profesional, termino el procedimiento y le informo de cómo recurrir la multa.", 3],
-    ["Le pido con firmeza que se calme y continúo, aunque me cuesta.", 2],
-    ["Le respondo con ironía para que vea que no me afecta.", 1],
-    ["Le devuelvo los insultos: nadie le falta el respeto a un agente.", 0]] },
-  { c: "estabilidad", t: "Tras una persecución fallida, un superior te reprende delante de todo el equipo.", o: [
-    ["Escucho, asumo lo que me corresponde y pido revisarlo en privado más tarde.", 3],
-    ["Lo acepto sin decir nada, aunque me quedo molesto el resto del turno.", 2],
-    ["Me justifico en ese momento discutiendo cada punto.", 1],
-    ["Le contesto en el mismo tono delante de todos.", 0]] },
-  { c: "estabilidad", t: "Has presenciado un accidente con víctimas mortales durante tu turno. Al terminar el servicio…", o: [
-    ["Hablo con un compañero o con el servicio de apoyo psicológico si lo necesito.", 3],
-    ["Me tomo un rato a solas para despejarme antes de volver a casa.", 2],
-    ["Lo ignoro y sigo como si nada hubiera pasado.", 1],
-    ["Bebo para olvidarlo; es lo que hace todo el mundo.", 0]] },
-  { c: "estabilidad", t: "Un compañero comete un error que te deja en evidencia delante de un detenido.", o: [
-    ["Corrijo la situación con calma y lo hablamos al terminar el servicio.", 3],
-    ["Le hago una señal discreta y sigo con el procedimiento.", 2],
-    ["Le recrimino el error en ese mismo momento.", 1],
-    ["Me enfado y abandono el procedimiento.", 0]] },
-  { c: "estabilidad", t: "Llevas varias semanas haciendo turnos dobles y notas que estás más irritable de lo normal.", o: [
-    ["Lo comunico a mi supervisor y busco organizar descansos.", 3],
-    ["Intento descansar más en mis días libres.", 2],
-    ["Lo dejo pasar; ya se me pasará.", 1],
-    ["Lo descargo con los ciudadanos durante las intervenciones.", 0]] },
-  { c: "estabilidad", t: "Un sospechoso intenta provocarte hablando mal de tu familia.", o: [
-    ["No entro en el juego y mantengo el foco en el procedimiento.", 3],
-    ["Le corto la conversación con firmeza y sigo.", 2],
-    ["Le advierto de que se está buscando problemas.", 1],
-    ["Pierdo la calma y lo amenazo.", 0]] },
-  { c: "estabilidad", t: "Recibes una queja formal de un ciudadano que consideras injusta.", o: [
-    ["Colaboro con la investigación interna y aporto mi versión con pruebas.", 3],
-    ["Respondo a la queja aunque me parece una pérdida de tiempo.", 2],
-    ["Me quejo con los compañeros de lo injusta que es.", 1],
-    ["Busco al ciudadano para pedirle explicaciones.", 0]] },
-  { c: "estabilidad", t: "No has sido seleccionado para un ascenso que esperabas.", o: [
-    ["Pido una valoración sobre qué mejorar y sigo trabajando.", 3],
-    ["Me siento decepcionado, pero acepto la decisión.", 2],
-    ["Bajo mi rendimiento durante un tiempo.", 1],
-    ["Critico públicamente a quien fue ascendido.", 0]] },
-  { c: "estabilidad", t: "Durante un servicio rutinario recibes una mala noticia personal por teléfono.", o: [
-    ["Informo a mi supervisor por si necesito relevo y valoro si puedo continuar con seguridad.", 3],
-    ["Termino el servicio intentando concentrarme.", 2],
-    ["Sigo trabajando sin decir nada, aunque estoy distraído.", 1],
-    ["Abandono el puesto sin avisar.", 0]] },
-  { c: "estabilidad", t: "Un ciudadano te graba con el móvil durante una intervención.", o: [
-    ["Sigo actuando con normalidad; grabar en la vía pública es su derecho si no interfiere.", 3],
-    ["Le pido que mantenga una distancia de seguridad.", 2],
-    ["Le exijo que deje de grabar.", 1],
-    ["Le quito el móvil.", 0]] },
+  { c: "estabilidad", t: "Un civil te insulta repetidamente durante un control rutinario.", o: [
+    ["Mantengo la compostura y sigo con el control.", 3],
+    ["Le pido con firmeza que modere el tono y continúo con el control.", 2],
+    ["Le contesto con ironía, sin llegar a insultarle.", 1],
+    ["Le devuelvo el insulto; él empezó primero.", 0]] },
+  { c: "estabilidad", t: "En pleno operativo, el H-50 da una orden con la que no estás de acuerdo.", o: [
+    ["La cumplo y, al terminar, expongo mi opinión por el canal adecuado.", 3],
+    ["La cumplo sin decir nada, aunque me quedo molesto.", 2],
+    ["Le discuto la orden por radio delante de todos.", 1],
+    ["Hago lo contrario porque creo que tengo razón.", 0]] },
+  { c: "estabilidad", t: "Te abaten durante un tiroteo. ¿Qué haces mientras estás abatido?", o: [
+    ["Me muteo en TS3 y no hablo hasta que termine el rol.", 3],
+    ["Me muteo en TS3, aunque tardo un poco en hacerlo.", 2],
+    ["Comento por TS3 lo que ha pasado, sin dar posiciones.", 1],
+    ["Envío un QRR para que mis compañeros vengan a por mí.", 0]] },
+  { c: "estabilidad", t: "Acabas de abatir a un sospechoso tras un tiroteo muy tenso. Al informar por radio…", o: [
+    ["Comunico con calma que el sospechoso ha sido abatido y pido EMS.", 3],
+    ["Informo de que está abatido, aunque con un tono alterado.", 2],
+    ["Digo que está muerto, que es lo que ha pasado realmente y así queda más claro.", 1],
+    ["Celebro por radio que me lo he cargado.", 0]] },
+  { c: "estabilidad", t: "Eres cadete y en tu semana de prueba cometes varios errores.", o: [
+    ["Pido feedback a mis superiores y corrijo los fallos cuanto antes.", 3],
+    ["Sigo patrullando y confío en mejorar con la práctica.", 2],
+    ["Me desanimo y evito salir de servicio para no fallar.", 1],
+    ["Explico a mis superiores que mis errores se deben a que mis compañeros no me ayudan.", 0]] },
+  { c: "estabilidad", t: "Un compañero te falta al respeto delante de un detenido.", o: [
+    ["Mantengo la calma y lo comunico a un superior al terminar.", 3],
+    ["Le pido que pare y lo hablamos después en privado.", 2],
+    ["Le contesto en el mismo tono para no quedar mal.", 1],
+    ["Me enfrento a él allí mismo, delante del detenido.", 0]] },
+  { c: "estabilidad", t: "Durante la negociación de un robo, el atracador se burla de ti y te provoca.", o: [
+    ["Mantengo un tono profesional y me centro en las condiciones.", 3],
+    ["Le advierto de que, si sigue burlándose, se acaba la conversación y entramos.", 2],
+    ["Le respondo con amenazas para que deje de burlarse.", 1],
+    ["Rompo la negociación y entro sin esperar a nadie.", 0]] },
+  { c: "estabilidad", t: "Una organización te secuestra estando de servicio y te retiene durante la negociación.", o: [
+    ["Mantengo la calma y colaboro para que la negociación salga bien.", 3],
+    ["Me quedo callado y dejo que negocien mis compañeros, sin intervenir en nada.", 2],
+    ["Provoco a los secuestradores para ponerlos nerviosos.", 1],
+    ["Intento escapar sin pensar en el riesgo para el resto.", 0]] },
+  { c: "estabilidad", t: "Por motivos personales estuviste dos semanas inactivo y has perdido tu rango.", o: [
+    ["Lo acepto, vuelvo al servicio y trabajo para recuperar mi división.", 3],
+    ["Pregunto a jefatura qué necesito para recuperar mi posición.", 2],
+    ["Me quejo en público de que es una injusticia.", 1],
+    ["Abandono la facción sin avisar a nadie.", 0]] },
+  { c: "estabilidad", t: "Un civil te graba con el móvil y se ríe de ti durante una detención.", o: [
+    ["Sigo con la detención con normalidad, sin entrar en provocaciones.", 3],
+    ["Le pido que mantenga la distancia para no interferir.", 2],
+    ["Le respondo con sarcasmo mientras esposo al detenido.", 1],
+    ["Lo detengo también por interferir, aunque en realidad no ha cometido ningún delito.", 0]] },
 
   // ───────────── MANEJO DEL ESTRÉS ─────────────
-  { c: "estres", t: "Recibes tres avisos simultáneos por radio y eres la única unidad disponible.", o: [
-    ["Priorizo según el riesgo para las personas, informo a central y pido apoyo.", 3],
-    ["Atiendo el más cercano y aviso del resto.", 2],
-    ["Atiendo el primero que recibí.", 1],
-    ["Me bloqueo y espero a que central decida por mí.", 0]] },
-  { c: "estres", t: "En medio de un tiroteo tu radio deja de funcionar.", o: [
-    ["Me pongo a cubierto y uso señales acordadas o un canal alternativo, como la radio de un compañero.", 3],
-    ["Me cubro y espero a que el equipo se acerque.", 2],
-    ["Intento arreglar la radio en ese momento.", 1],
-    ["Salgo de la cobertura para buscar a mi equipo.", 0]] },
-  { c: "estres", t: "Debes redactar un informe extenso y queda poco tiempo para terminar el turno.", o: [
-    ["Organizo los datos clave y lo redacto con precisión, aunque me quede algo más.", 3],
-    ["Hago un informe básico y aviso de que lo completaré al día siguiente.", 2],
-    ["Lo hago rápido y sin revisar.", 1],
-    ["Lo dejo sin hacer.", 0]] },
-  { c: "estres", t: "Una persecución se alarga y notas mucha tensión y adrenalina.", o: [
-    ["Controlo la respiración, comunico mi posición y reduzco el riesgo si la situación lo requiere.", 3],
-    ["Sigo la persecución y confío en el equipo.", 2],
-    ["Acelero para terminarla cuanto antes.", 1],
-    ["Asumo riesgos extremos para no perderlo.", 0]] },
-  { c: "estres", t: "Un rehén grita y llora sin parar durante una negociación.", o: [
-    ["Mantengo la calma, transmito seguridad y sigo el protocolo del negociador.", 3],
-    ["Intento tranquilizarlo con palabras.", 2],
-    ["Le pido que se calle para poder concentrarme.", 1],
-    ["Actúo por mi cuenta para terminar rápido.", 0]] },
-  { c: "estres", t: "En el lugar de un accidente varias personas te exigen atención a la vez.", o: [
-    ["Establezco prioridades, delego tareas y doy instrucciones claras.", 3],
-    ["Atiendo a quien parece más grave.", 2],
-    ["Atiendo a quien grita más.", 1],
-    ["Me retiro hasta que lleguen refuerzos.", 0]] },
-  { c: "estres", t: "Un operativo sale mal y tienes que reaccionar en segundos.", o: [
-    ["Aplico el plan de contingencia y lo comunico al mando.", 3],
-    ["Me repliego y espero instrucciones.", 2],
-    ["Improviso sin avisar a nadie.", 1],
-    ["Me quedo paralizado.", 0]] },
-  { c: "estres", t: "Estás nervioso antes de declarar como testigo en un juicio.", o: [
-    ["Repaso mi informe, me apoyo en los hechos y respondo con sinceridad.", 3],
-    ["Pido consejo a un compañero con experiencia.", 2],
-    ["Intento memorizar respuestas para no fallar.", 1],
-    ["Pido que me eximan de declarar.", 0]] },
-  { c: "estres", t: "Llevas 12 horas de servicio y te asignan un aviso urgente.", o: [
-    ["Valoro mi estado: si estoy apto acudo, y si no, lo comunico para que asignen otra unidad.", 3],
-    ["Acudo aunque esté cansado.", 2],
-    ["Acudo y lo resuelvo deprisa para irme.", 1],
+  { c: "estres", t: "En el robo al Banco Central (DEFCON 1) el tiroteo se alarga y la tensión es máxima.", o: [
+    ["Mantengo mi posición, informo de lo que veo y sigo al H-50.", 3],
+    ["Me centro solo en mi sector y dejo la radio a los demás.", 2],
+    ["Salgo de cobertura para avanzar y terminar el tiroteo cuanto antes, cueste lo que cueste.", 1],
+    ["Abandono el operativo porque la situación me supera.", 0]] },
+  { c: "estres", t: "Una persecución supera los 10 minutos y empiezas a frustrarte.", o: [
+    ["Doy los avisos reglamentarios y después intento código 100 o pinchar.", 3],
+    ["Sigo detrás a distancia prudente y pido a otra unidad que lo releve para no perderlo.", 2],
+    ["Pincho las ruedas directamente, sin dar los avisos.", 1],
+    ["Le hago un código PIT para acabar de una vez.", 0]] },
+  { c: "estres", t: "Hay un robo en curso y siguen llegando nuevas solicitudes de robo.", o: [
+    ["Respeto el turno de robos y acepto a los primeros solicitantes.", 3],
+    ["Pido a central que lleve el turno mientras atiendo el robo actual.", 2],
+    ["Acepto el que me queda más cerca, aunque no le toque.", 1],
+    ["Los rechazo todos para no complicarme el turno.", 0]] },
+  { c: "estres", t: "En un secuestro a un compañero, los secuestradores (sin un Comandante retenido) exigen armas y dinero.", o: [
+    ["Les recuerdo con calma que solo se negocia lo que permite la normativa.", 3],
+    ["Pido un momento y lo consulto con el H-50 antes de responder.", 2],
+    ["Les ofrezco las armas y el dinero que piden, porque la vida del compañero es lo primero.", 1],
+    ["Rompo la negociación y abro fuego sin avisar.", 0]] },
+  { c: "estres", t: "Robo en la joyería: han pasado 25 de los 30 minutos y aún no hay acuerdo.", o: [
+    ["Mantengo la calma y aviso de que el tiempo está a punto de agotarse.", 3],
+    ["Sigo negociando y dejo que el tiempo corra.", 2],
+    ["Acepto cualquier condición que pongan con tal de cerrar el acuerdo antes de que acabe el tiempo.", 1],
+    ["Entro sin avisar para terminar ya.", 0]] },
+  { c: "estres", t: "Estás atendiendo un 10-23 (venta de droga) y entra un QRR (agente en peligro).", o: [
+    ["Aviso a central, aseguro la escena y acudo al QRR si me corresponde.", 3],
+    ["Dejo el 10-23 a medias y voy directo al QRR, porque un agente en peligro es lo primero.", 2],
+    ["Termino primero el 10-23 y luego ya veré.", 1],
+    ["Ignoro el QRR; ya irá otra unidad.", 0]] },
+  { c: "estres", t: "Durante un código 3 (tiroteo en curso) la radio se satura de mensajes.", o: [
+    ["Pido QRX para liberar el canal y comunico solo lo esencial.", 3],
+    ["Hablo solo cuando me preguntan directamente.", 2],
+    ["Repito varias veces mi posición para asegurarme.", 1],
+    ["Cambio de canal y actúo por mi cuenta.", 0]] },
+  { c: "estres", t: "Han secuestrado a tres compañeros y la presión en la negociación es enorme.", o: [
+    ["Mantengo la cabeza fría y negocio dentro de lo permitido.", 3],
+    ["Dejo la negociación al agente con más experiencia y le apoyo.", 2],
+    ["Acepto la primera propuesta para no alargarlo.", 1],
+    ["Ordeno asaltar sin negociar, aunque la negociación es obligatoria.", 0]] },
+  { c: "estres", t: "Llevas varios robos seguidos en tu turno, estás agotado y entra otro aviso.", o: [
+    ["Valoro si estoy en condiciones y, si no, aviso para que vaya otra unidad.", 3],
+    ["Acudo igualmente aunque esté agotado, porque no quiero dejar a mis compañeros solos.", 2],
+    ["Acudo, pero lo resuelvo deprisa para irme.", 1],
     ["Ignoro el aviso.", 0]] },
-  { c: "estres", t: "Durante una detención se concentra una multitud que se vuelve hostil.", o: [
-    ["Aseguro al detenido, pido refuerzos y busco una salida segura sin provocar.", 3],
-    ["Me retiro rápidamente con el detenido.", 2],
-    ["Amenazo a la multitud para que se disperse.", 1],
-    ["Saco el arma para intimidar.", 0]] },
+  { c: "estres", t: "En el robo a un Flecca, uno de los rehenes entra en pánico.", o: [
+    ["Transmito calma y sigo la negociación pensando en su seguridad.", 3],
+    ["Le pido que se tranquilice y espere instrucciones.", 2],
+    ["Lo ignoro para centrarme en los atracadores.", 1],
+    ["Entro a por él sin coordinarme con el equipo.", 0]] },
 
   // ───────────── TOMA DE DECISIONES ─────────────
-  { c: "decisiones", t: "Encuentras un vehículo con una persona inconsciente dentro y el motor encendido.", o: [
-    ["Aseguro la escena, compruebo su estado, solicito EMS y apago el motor.", 3],
-    ["Llamo a EMS y espero a que lleguen.", 2],
-    ["Rompo el cristal sin valorar nada más.", 1],
-    ["Le pongo una multa por mal estacionamiento.", 0]] },
-  { c: "decisiones", t: "Dos testigos te dan versiones contradictorias de lo ocurrido.", o: [
-    ["Registro ambas versiones, busco pruebas objetivas y no saco conclusiones precipitadas.", 3],
-    ["Me quedo con la versión que me parece más creíble.", 2],
-    ["Elijo la del testigo que conozco.", 1],
-    ["Ignoro a los dos testigos.", 0]] },
-  { c: "decisiones", t: "Un superior te da una orden que parece contraria al protocolo.", o: [
-    ["Pido aclaración con respeto; si es ilegal, no la ejecuto y lo comunico por la vía correspondiente.", 3],
-    ["La cumplo, pero dejo constancia por escrito.", 2],
-    ["La cumplo sin preguntar.", 1],
-    ["La ignoro sin decir nada.", 0]] },
-  { c: "decisiones", t: "En un control rutinario notas olor a sustancias y el conductor está muy nervioso.", o: [
-    ["Aplico el protocolo: le informo, solicito apoyo y realizo el registro según la normativa.", 3],
-    ["Le pregunto directamente y decido según su respuesta.", 2],
-    ["Le dejo ir con una advertencia.", 1],
-    ["Registro el vehículo sin informarle ni seguir el protocolo.", 0]] },
-  { c: "decisiones", t: "Llegas solo a una escena con un herido y un sospechoso huyendo.", o: [
-    ["Atiendo al herido, solicito EMS y comunico la descripción y dirección del sospechoso.", 3],
-    ["Lo comunico todo por radio y espero indicaciones.", 2],
-    ["Persigo al sospechoso y dejo al herido.", 1],
-    ["No hago nada hasta que llegue alguien.", 0]] },
-  { c: "decisiones", t: "Para llegar a un aviso puedes tomar una ruta rápida pero peligrosa u otra más lenta.", o: [
-    ["Valoro la urgencia del aviso y el riesgo para terceros antes de decidir.", 3],
-    ["Elijo siempre la ruta segura.", 2],
-    ["Elijo siempre la ruta rápida.", 1],
-    ["Elijo al azar.", 0]] },
-  { c: "decisiones", t: "Una persona armada se atrinchera en una tienda con clientes dentro.", o: [
-    ["Establezco un perímetro, informo al mando y solicito unidades especializadas.", 3],
-    ["Intento hablar con él desde fuera mientras llegan refuerzos.", 2],
-    ["Entro solo para sorprenderlo.", 1],
-    ["Disparo a través del escaparate.", 0]] },
-  { c: "decisiones", t: "Ves circular un vehículo con una matrícula reportada como robada.", o: [
-    ["Informo a central, solicito apoyo y hago una detención de alto riesgo según protocolo.", 3],
-    ["Lo sigo a distancia hasta que llegue apoyo.", 2],
-    ["Lo detengo yo solo de inmediato.", 1],
-    ["Lo dejo pasar; no es mi zona.", 0]] },
-  { c: "decisiones", t: "Durante una investigación aparece una prueba que contradice tu primera hipótesis.", o: [
-    ["Reviso mi hipótesis y sigo la evidencia.", 3],
-    ["Investigo más antes de cambiar de opinión.", 2],
-    ["Le resto importancia.", 1],
-    ["La oculto para no complicar el caso.", 0]] },
-  { c: "decisiones", t: "En una persecución, el sospechoso entra en una zona escolar a la hora de salida.", o: [
-    ["Reduzco la velocidad, comunico la situación y priorizo la seguridad de los menores.", 3],
-    ["Mantengo la distancia y sigo con precaución.", 2],
-    ["Sigo igual; no puedo perderlo.", 1],
-    ["Acelero para alcanzarlo antes de que escape.", 0]] },
+  { c: "decisiones", t: "Hay avisos de secuestros y tiroteos, y el H-50 establece DEFCON 3. ¿Qué te permite?", o: [
+    ["Portar SMG y registrar a personas sospechosas.", 3],
+    ["Usar escopeta solo si la intervención lo requiere.", 2],
+    ["Usar únicamente las armas reglamentarias.", 1],
+    ["Usar cualquier armamento, incluidas carabinas.", 0]] },
+  { c: "decisiones", t: "En mitad de un tiroteo crees que habría que subir el nivel de alerta.", o: [
+    ["Se lo comunico al H-50, que es el único que puede establecer el DEFCON.", 3],
+    ["Espero a que el H-50 decida, sin decir nada.", 2],
+    ["Le pido a un sargento que lo suba, ya que tiene rango suficiente para hacerlo.", 1],
+    ["Lo subo yo y saco armamento pesado.", 0]] },
+  { c: "decisiones", t: "Se activa un robo en un Badulaque con dos atracadores. ¿Cómo responde la policía?", o: [
+    ["Acuden de 2 a 3 policías, sin tiradores ni helicóptero.", 3],
+    ["Acuden 3 policías y piden el helicóptero por si huyen.", 2],
+    ["Acuden 5 policías para asegurar la zona.", 1],
+    ["Acude toda la comisaría con armas largas.", 0]] },
+  { c: "decisiones", t: "Se activa un robo en un Flecca. ¿Cómo organizas la respuesta?", o: [
+    ["De 4 a 5 policías, con un tirador como máximo.", 3],
+    ["5 policías, sin ningún tirador.", 2],
+    ["7 policías y dos tiradores, para asegurarnos de que no escapen.", 1],
+    ["Acudo yo solo para no perder tiempo.", 0]] },
+  { c: "decisiones", t: "Quieres sacar el Interceptor. ¿Cuándo está permitido?", o: [
+    ["Con 3 o más compañeros patrullando y un motivo previo.", 3],
+    ["Siempre que el H-50 lo autorice expresamente, haya o no compañeros patrullando.", 2],
+    ["Siempre que quiera patrullar más rápido.", 1],
+    ["Para hacer carreras por la ciudad en servicio.", 0]] },
+  { c: "decisiones", t: "Llegan entornos de vehículos de guerra en el norte. ¿Qué hace la policía?", o: [
+    ["Puede usar vehículos militares en el norte, avisándolo y en DEFCON 1.", 3],
+    ["Pide refuerzos a todas las unidades y espera órdenes de jefatura sin sacar ningún vehículo.", 2],
+    ["Saca los militares para patrullar la ciudad.", 1],
+    ["Lleva los vehículos de guerra a la ciudad para disuadir.", 0]] },
+  { c: "decisiones", t: "Detienes a un sospechoso. ¿Cuándo le lees sus derechos?", o: [
+    ["Le informo del delito y le leo los derechos antes de entrar en comisaría.", 3],
+    ["Se los leo en cuanto llegamos a comisaría, una vez está dentro y más tranquilo.", 2],
+    ["Solo si me los pide.", 1],
+    ["No se los leo; ya los conoce.", 0]] },
+  { c: "decisiones", t: "Reconoces el coche que se usó en un robo de hace tres días.", o: [
+    ["Solo continúo el rol si hay una investigación abierta con informe.", 3],
+    ["Lo sigo a distancia y abro un informe antes de actuar.", 2],
+    ["Lo detengo directamente; sé que es él.", 1],
+    ["Le coloco pruebas para poder detenerlo.", 0]] },
+  { c: "decisiones", t: "Persigues a un vehículo que hace un contrato de reparto de droga.", o: [
+    ["Lo persigo sin chocar ni pinchar, aunque pasen 10 minutos.", 3],
+    ["Lo sigo y comunico su posición al resto de unidades.", 2],
+    ["Pasados los 10 minutos de persecución, doy los avisos y le pincho las ruedas.", 1],
+    ["Lo embisto para detenerlo cuanto antes.", 0]] },
+  { c: "decisiones", t: "Te informan de que un cártel está defendiendo un contenedor.", o: [
+    ["No acudo; la policía no puede intervenir en los contenedores.", 3],
+    ["Lo comunico a jefatura y no intervengo.", 2],
+    ["Me acerco a observar desde lejos.", 1],
+    ["Organizo una redada en el contenedor.", 0]] },
 
   // ───────────── TRABAJO EN EQUIPO ─────────────
-  { c: "equipo", t: "Un compañero nuevo no sigue bien el procedimiento de detención.", o: [
-    ["Le explico en privado cómo hacerlo y le ofrezco practicarlo juntos.", 3],
-    ["Lo comento con el supervisor para que lo forme.", 2],
-    ["Lo corrijo delante del detenido.", 1],
-    ["Lo dejo; ya aprenderá solo.", 0]] },
-  { c: "equipo", t: "Tu equipo decide una táctica con la que no estás de acuerdo.", o: [
-    ["Expongo mi opinión con argumentos y, si se decide otra cosa, la ejecuto con compromiso.", 3],
-    ["Me callo y la sigo.", 2],
-    ["La sigo de mala gana.", 1],
-    ["Hago lo que creo mejor por mi cuenta.", 0]] },
-  { c: "equipo", t: "En una operación conjunta entre varias facciones hay dudas sobre quién tiene el mando.", o: [
-    ["Respeto la cadena de mando acordada y aclaro los roles antes de actuar.", 3],
-    ["Sigo a quien tenga más rango.", 2],
-    ["Solo sigo las órdenes de mi propia facción.", 1],
-    ["Actúo sin coordinarme con nadie.", 0]] },
-  { c: "equipo", t: "Un compañero está sobrecargado de trabajo y tú tienes tiempo libre.", o: [
-    ["Le ofrezco ayuda y nos coordinamos.", 3],
-    ["Le ayudo si me lo pide.", 2],
-    ["No es mi trabajo.", 1],
-    ["Me quejo de lo lento que es.", 0]] },
-  { c: "equipo", t: "Hay un conflicto entre dos compañeros de tu unidad.", o: [
-    ["Medio para que lo hablen y, si persiste, lo comunico al supervisor.", 3],
-    ["Lo comunico directamente al supervisor.", 2],
-    ["Me pongo del lado del que me cae mejor.", 1],
-    ["Alimento el conflicto.", 0]] },
-  { c: "equipo", t: "Durante un operativo descubres información útil para otra unidad.", o: [
-    ["La comparto de inmediato por el canal adecuado.", 3],
-    ["La comparto al terminar el operativo.", 2],
-    ["Me la guardo por si me sirve más adelante.", 1],
-    ["La oculto para llevarme el mérito.", 0]] },
-  { c: "equipo", t: "Te asignan patrulla con un compañero con el que no tienes afinidad.", o: [
-    ["Mantengo una relación profesional y me centro en el servicio.", 3],
-    ["Pido cambiar de compañero la próxima vez.", 2],
-    ["Hablo con él lo mínimo.", 1],
-    ["Me niego a patrullar con él.", 0]] },
-  { c: "equipo", t: "Un operativo sale bien gracias al trabajo de todos.", o: [
-    ["Reconozco el trabajo del equipo en el informe.", 3],
-    ["Lo comento de manera informal.", 2],
-    ["Destaco sobre todo mi parte.", 1],
-    ["Me atribuyo todo el mérito.", 0]] },
-  { c: "equipo", t: "Un compañero pide apoyo por radio en una zona lejana a la tuya.", o: [
-    ["Confirmo disponibilidad, coordino con central y acudo si soy la unidad adecuada.", 3],
-    ["Acudo directamente.", 2],
-    ["Espero a que responda otra unidad.", 1],
-    ["Ignoro la llamada.", 0]] },
-  { c: "equipo", t: "Tu supervisor pide voluntarios para una tarea poco agradable.", o: [
-    ["Me ofrezco si puedo; forma parte del servicio.", 3],
-    ["Me ofrezco solo si nadie más lo hace.", 2],
-    ["Pongo una excusa.", 1],
-    ["Critico la tarea delante de todos.", 0]] },
+  { c: "equipo", t: "Empiezas el turno y no hay ningún compañero libre para patrullar contigo.", o: [
+    ["Espero a tener compañero; la patrulla debe ir en binomio.", 3],
+    ["Me quedo haciendo tareas en comisaría hasta que algún compañero quede libre.", 2],
+    ["Salgo solo un rato; no pasa nada.", 1],
+    ["Salgo solo y no se lo digo a nadie.", 0]] },
+  { c: "equipo", t: "En un robo, el H-50 reparte posiciones y la tuya no te convence.", o: [
+    ["Ocupo mi posición e informo por radio de lo que veo.", 3],
+    ["La ocupo, pero pido cambiarla en el próximo operativo.", 2],
+    ["Me muevo a otra posición sin avisar.", 1],
+    ["Discuto la decisión por radio en pleno operativo.", 0]] },
+  { c: "equipo", t: "Tu unidad quiere hacer otra redada a una banda que ya ha tenido tres esta semana.", o: [
+    ["Recuerdo que el máximo son 3 redadas semanales y propongo otra vía.", 3],
+    ["Lo consulto con jefatura antes de seguir.", 2],
+    ["Hacemos la redada igualmente; es solo una más.", 1],
+    ["Hacemos varias más para presionar a la banda.", 0]] },
+  { c: "equipo", t: "Un compañero cae abatido en un punto caliente.", o: [
+    ["Aseguro la zona, comunico su posición y solicito EMS.", 3],
+    ["Comunico su posición por radio y continúo con el operativo para no perder terreno.", 2],
+    ["Me quedo a su lado esperando, sin cubrirme.", 1],
+    ["Me retiro y lo dejo allí sin avisar a nadie.", 0]] },
+  { c: "equipo", t: "Tu compañero ha pactado una salida limpia con los atracadores.", o: [
+    ["Respeto el acuerdo y les dejo subir al vehículo sin detenerlos.", 3],
+    ["Lo respeto y preparo el seguimiento para cuando arranquen.", 2],
+    ["Les dejo salir del local, pero los detengo justo antes de que se suban al coche.", 1],
+    ["Ignoro el pacto y abro fuego al verlos salir.", 0]] },
+  { c: "equipo", t: "En una operación conjunta entre LSPD, LSSD y FBI hay dudas sobre quién manda.", o: [
+    ["Respeto la cadena de mando acordada y aclaro los roles.", 3],
+    ["Sigo las órdenes del agente de mayor rango presente, sea de la facción que sea.", 2],
+    ["Solo acepto órdenes de mi propia facción.", 1],
+    ["Actúo por mi cuenta sin coordinarme con nadie.", 0]] },
+  { c: "equipo", t: "Identificas el color y modelo del vehículo usado en un robo.", o: [
+    ["Lo comunico por radio a todas las unidades.", 3],
+    ["Lo anoto en el informe al terminar el servicio.", 2],
+    ["Me lo guardo para seguirlo yo más tarde.", 1],
+    ["No lo comunico para llevarme el mérito.", 0]] },
+  { c: "equipo", t: "Patrullas con un cadete que comete errores durante su semana de prueba.", o: [
+    ["Le explico en privado cómo hacerlo y le doy margen para mejorar.", 3],
+    ["Informo a mis superiores para que lo valoren.", 2],
+    ["Lo corrijo delante de los civiles.", 1],
+    ["Me burlo de él por radio.", 0]] },
+  { c: "equipo", t: "Un compañero va a disparar a un sospechoso desarmado que huye de espaldas.", o: [
+    ["Le aviso de que no puede disparar y le pido que pare.", 3],
+    ["No intervengo en ese momento, pero lo reporto a jefatura al terminar el operativo.", 2],
+    ["No digo nada; es su responsabilidad.", 1],
+    ["Lo cubro y disparo yo también.", 0]] },
+  { c: "equipo", t: "Estás patrullando y el H-50 solicita un 10-32 (refuerzos) en un robo.", o: [
+    ["Confirmo por radio que voy de camino (10-11) y acudo.", 3],
+    ["Acudo, pero sin confirmarlo por radio.", 2],
+    ["Espero unos minutos a ver si responde otra unidad que esté más cerca.", 1],
+    ["Me pongo 10-7 para no tener que ir.", 0]] },
 
   // ───────────── INTEGRIDAD Y ÉTICA ─────────────
-  { c: "integridad", t: "Durante un registro encuentras una gran cantidad de dinero en efectivo.", o: [
-    ["Lo documento, lo incauto según protocolo y lo entrego como prueba.", 3],
-    ["Lo cuento junto a un compañero y lo entrego.", 2],
-    ["Se lo devuelvo al propietario sin documentarlo.", 1],
+  { c: "integridad", t: "Eres Oficial, terminas el turno y aún llevas las armas reglamentarias.", o: [
+    ["Las devuelvo antes de salir de servicio.", 3],
+    ["Las devuelvo al empezar mi siguiente turno.", 2],
+    ["Me las quedo; nadie lo va a notar.", 1],
+    ["Se las presto a un conocido civil.", 0]] },
+  { c: "integridad", t: "En un control, un civil lleva un arma de caza sin carne ni piel en el inventario.", o: [
+    ["No se la requiso; solo puedo hacerlo si lleva carne o piel de animal.", 3],
+    ["Le pregunto para qué la usa y le dejo continuar.", 2],
+    ["Se la requiso por precaución.", 1],
+    ["Se la requiso y me la quedo yo.", 0]] },
+  { c: "integridad", t: "Un detenido pide un abogado y no tiene ninguno.", o: [
+    ["Solicito un abogado de oficio mediante /pol.", 3],
+    ["Le dejo avisar a un conocido para que lo represente.", 2],
+    ["Le digo que espere, que primero lo procesamos.", 1],
+    ["Le niego el abogado.", 0]] },
+  { c: "integridad", t: "Un detenido pide hacer una llamada.", o: [
+    ["Se la permito en presencia de un funcionario.", 3],
+    ["Se la permito cuando termine de procesarlo.", 2],
+    ["Le digo que no tiene ese derecho.", 1],
+    ["Le dejo llamar a solas a cambio de información.", 0]] },
+  { c: "integridad", t: "Durante un registro encuentras una gran cantidad de dinero negro.", o: [
+    ["Lo documento, lo requiso según protocolo y lo entrego como prueba.", 3],
+    ["Lo cuento con un compañero y lo entrego.", 2],
+    ["Se lo devuelvo al propietario sin documentarlo para no complicar el registro.", 1],
     ["Me quedo con una parte.", 0]] },
-  { c: "integridad", t: "Un comerciante te ofrece comida gratis \"por las molestias\".", o: [
-    ["Lo rechazo con amabilidad y pago.", 3],
-    ["Acepto solo un café.", 2],
-    ["Acepto, pero no lo convierto en costumbre.", 1],
-    ["Acepto y le prometo vigilar especialmente su negocio.", 0]] },
-  { c: "integridad", t: "Ves a un compañero usar fuerza excesiva contra un detenido esposado.", o: [
-    ["Intervengo para detenerlo y lo reporto.", 3],
-    ["Lo reporto después.", 2],
-    ["Lo hablo con él en privado sin reportarlo.", 1],
-    ["Miro hacia otro lado.", 0]] },
-  { c: "integridad", t: "Un familiar te pide que le anules una multa.", o: [
-    ["Le explico que no puedo y le indico cómo recurrirla legalmente.", 3],
-    ["Le digo que no, sin más.", 2],
-    ["Le digo que hablaré con alguien.", 1],
-    ["La anulo.", 0]] },
-  { c: "integridad", t: "Descubres un error en un informe que ya entregaste.", o: [
-    ["Lo comunico y presento una rectificación.", 3],
-    ["Lo corrijo si alguien lo detecta.", 2],
-    ["Lo dejo; no es grave.", 1],
-    ["Modifico otros datos para que todo cuadre.", 0]] },
-  { c: "integridad", t: "Un detenido te ofrece información a cambio de que \"pierdas\" una prueba.", o: [
-    ["Rechazo la oferta, lo documento e informo al investigador.", 3],
-    ["Rechazo la oferta.", 2],
-    ["Le digo que me lo pensaré.", 1],
-    ["Acepto el trato.", 0]] },
-  { c: "integridad", t: "Un periodista te pregunta por una investigación confidencial que conoces.", o: [
-    ["No revelo nada y lo remito al portavoz oficial.", 3],
-    ["Le digo que no puedo hablar del tema.", 2],
-    ["Le doy alguna pista de manera extraoficial.", 1],
-    ["Le cuento todo lo que sé.", 0]] },
-  { c: "integridad", t: "Un superior te pide que cambies la hora de un incidente en tu informe.", o: [
+  { c: "integridad", t: "Durante un robo pactado te queda poca vida y llevas una adrenalina.", o: [
+    ["No la uso; en los robos pactados no se permiten adrenalinas.", 3],
+    ["No la uso todavía; me retiro a cubierto y pido EMS para que me atiendan.", 2],
+    ["La uso solo si nadie me está viendo.", 1],
+    ["La uso; si me abaten pierdo el operativo.", 0]] },
+  { c: "integridad", t: "Quieres dejar la policía y unirte a una organización criminal.", o: [
+    ["Desarrollo una evolución coherente del personaje antes del cambio.", 3],
+    ["Pido orientación a la administración y me cambio en cuanto me den el visto bueno.", 2],
+    ["Me cambio de un día para otro.", 1],
+    ["Paso información policial a la organización antes de irme.", 0]] },
+  { c: "integridad", t: "Un compañero propone quitar del informe un detalle que complica el caso.", o: [
     ["Me niego y lo comunico por la vía correspondiente.", 3],
-    ["Me niego.", 2],
-    ["Lo cambio si me lo pide por escrito.", 1],
-    ["Lo cambio sin más.", 0]] },
+    ["Me niego y redacto el informe completo yo mismo.", 2],
+    ["Lo acepto si es un detalle menor que no cambia el fondo del caso.", 1],
+    ["Lo borramos y además ajustamos las horas.", 0]] },
   { c: "integridad", t: "Detienes a una persona influyente que exige un trato especial.", o: [
-    ["La trato con respeto y con el mismo procedimiento que a cualquier ciudadano.", 3],
-    ["Consulto a mi supervisor cómo proceder.", 2],
+    ["La trato con respeto y con el mismo procedimiento que a cualquiera.", 3],
+    ["Consulto a mi superior cómo proceder.", 2],
     ["Le doy algunas facilidades.", 1],
     ["La dejo ir.", 0]] },
-  { c: "integridad", t: "Un amigo te pide que busques en la base de datos policial la dirección de su expareja.", o: [
-    ["Me niego, el acceso es solo para fines policiales, y si veo un riesgo lo comunico.", 3],
-    ["Me niego.", 2],
-    ["Le digo solo en qué ciudad vive.", 1],
-    ["Le doy la dirección.", 0]] },
+  { c: "integridad", t: "Los atracadores piden un 30% del botín por una salida limpia.", o: [
+    ["Les recuerdo que el máximo es un 10% e intento negociar a la baja.", 3],
+    ["Acepto el 10% sin intentar negociar menos.", 2],
+    ["Acepto un 20% para no complicar la negociación y que nadie salga herido.", 1],
+    ["Acepto el 30% a cambio de una parte para mí.", 0]] },
 
   // ───────────── AUTOCONTROL Y USO DE LA FUERZA ─────────────
+  { c: "impulsos", t: "Un sospechoso desarmado huye corriendo de espaldas.", o: [
+    ["No disparo; lo persigo y comunico su descripción.", 3],
+    ["Le doy el alto varias veces y espero a que llegue apoyo para detenerlo.", 2],
+    ["Le apunto con el arma para intimidarlo.", 1],
+    ["Le disparo para que no escape.", 0]] },
+  { c: "impulsos", t: "Se rompen las negociaciones en un robo.", o: [
+    ["Espero los 10 segundos reglamentarios antes de iniciar el tiroteo.", 3],
+    ["Espero unos segundos y sigo la orden del H-50.", 2],
+    ["Disparo en cuanto veo moverse a un atracador.", 1],
+    ["Abro fuego al instante para aprovechar la sorpresa antes de que se reorganicen.", 0]] },
+  { c: "impulsos", t: "En la huida de un robo mediano, los atracadores chocan y deciden enfrentarse.", o: [
+    ["Respeto 10 segundos de fairplay sin bajarme del vehículo.", 3],
+    ["Espero un momento y me bajo cuando lo ordene el H-50.", 2],
+    ["Me bajo y me pongo a cubierto de inmediato.", 1],
+    ["Les disparo desde el coche nada más chocar.", 0]] },
+  { c: "impulsos", t: "En un punto caliente llega un vehículo enemigo y sus ocupantes empiezan a bajar.", o: [
+    ["Les doy fairplay: espero a que bajen y equipen su arma.", 3],
+    ["Doy un aviso en voz alta antes de actuar para que sepan que estoy allí.", 2],
+    ["Disparo cuando el primero ya está fuera.", 1],
+    ["Disparo al coche antes de que se bajen.", 0]] },
+  { c: "impulsos", t: "Vas en un vehículo blindado durante un tiroteo.", o: [
+    ["No disparo desde dentro; me bajo si tengo que intervenir.", 3],
+    ["Me quedo dentro del blindado dando cobertura a mis compañeros, sin disparar.", 2],
+    ["Disparo desde la ventanilla solo un momento.", 1],
+    ["Atropello a los atracadores con el blindado.", 0]] },
+  { c: "impulsos", t: "Abates a un atacante en un punto caliente.", o: [
+    ["Aseguro la zona y no me quedo esperando junto al cuerpo.", 3],
+    ["Pido EMS y me retiro a cubierto.", 2],
+    ["Me quedo cerca por si viene alguien a recogerlo.", 1],
+    ["Espero junto al cuerpo para abatir a quien venga.", 0]] },
+  { c: "impulsos", t: "En una persecución por la ciudad vas muy pegado al sospechoso.", o: [
+    ["Dejo espacio suficiente para evitar un choque.", 3],
+    ["Reduzco la distancia solo en las rectas, donde hay menos riesgo de chocar.", 2],
+    ["Voy pegado para meterle presión.", 1],
+    ["Lo embisto en cuanto tengo ocasión.", 0]] },
   { c: "impulsos", t: "Un sospechoso se resiste pasivamente a ser esposado.", o: [
-    ["Uso la mínima fuerza necesaria y le doy instrucciones verbales claras.", 3],
-    ["Pido ayuda a un compañero para reducirlo.", 2],
+    ["Uso la mínima fuerza necesaria y le doy instrucciones claras.", 3],
+    ["Pido ayuda a un compañero para reducirlo entre los dos lo antes posible.", 2],
     ["Uso el táser de inmediato.", 1],
     ["Lo golpeo para que aprenda.", 0]] },
-  { c: "impulsos", t: "Un conductor huye de un control.", o: [
-    ["Comunico matrícula y dirección, y persigo solo si el riesgo lo justifica.", 3],
-    ["Lo persigo con precaución.", 2],
-    ["Lo persigo a toda velocidad.", 1],
-    ["Disparo al vehículo.", 0]] },
-  { c: "impulsos", t: "Una persona en aparente crisis mental grita en la calle con un objeto en la mano.", o: [
-    ["Mantengo la distancia, intento desescalar hablando y solicito EMS y apoyo especializado.", 3],
-    ["Pido refuerzos y espero.", 2],
-    ["Le ordeno a gritos que suelte el objeto.", 1],
-    ["Uso el arma de fuego de inmediato.", 0]] },
-  { c: "impulsos", t: "Tras una persecución larga, el sospechoso se rinde.", o: [
-    ["Lo detengo según protocolo, sin represalias.", 3],
-    ["Lo detengo con firmeza, aunque estoy alterado.", 2],
-    ["Le grito mientras lo esposo.", 1],
-    ["Le doy un golpe por hacerme correr.", 0]] },
-  { c: "impulsos", t: "Un menor roba en una tienda y huye corriendo.", o: [
-    ["Le doy alcance si es seguro, uso la mínima fuerza y aviso a sus tutores.", 3],
-    ["Lo persigo y lo detengo.", 2],
-    ["Lo persigo con el coche patrulla.", 1],
-    ["Le apunto con el arma.", 0]] },
-  { c: "impulsos", t: "Alguien te empuja durante una manifestación.", o: [
-    ["Mantengo la calma, aseguro la zona e identifico al agresor para actuar con proporcionalidad.", 3],
-    ["Lo aparto y le advierto.", 2],
-    ["Le devuelvo el empujón.", 1],
-    ["Cargo contra todo el grupo.", 0]] },
   { c: "impulsos", t: "Un sospechoso ya esposado no deja de insultarte.", o: [
     ["Lo ignoro y continúo con el traslado.", 3],
-    ["Le pido que se calme.", 2],
+    ["Le pido que se calme o tendrá más cargos.", 2],
     ["Le aprieto más las esposas.", 1],
     ["Lo golpeo.", 0]] },
   { c: "impulsos", t: "Tienes el arma desenfundada y el sospechoso suelta la suya y levanta las manos.", o: [
-    ["Mantengo el control verbal, le ordeno tumbarse y procedo a la detención sin disparar.", 3],
+    ["Mantengo el control verbal y procedo a la detención sin disparar.", 3],
     ["Espero apoyo antes de acercarme.", 2],
-    ["Le grito amenazas.", 1],
+    ["Le grito amenazas mientras me acerco.", 1],
     ["Disparo igualmente, por si acaso.", 0]] },
-  { c: "impulsos", t: "Un compañero te provoca constantemente con bromas pesadas.", o: [
-    ["Le pido con calma que pare y, si sigue, lo comunico.", 3],
-    ["Lo evito.", 2],
-    ["Le respondo con una broma más pesada.", 1],
-    ["Lo enfrento físicamente.", 0]] },
-  { c: "impulsos", t: "Durante un control, alguien te graba y se burla de ti.", o: [
-    ["Mantengo la profesionalidad y sigo con el control.", 3],
-    ["Le pido que mantenga la distancia.", 2],
-    ["Le respondo con sarcasmo.", 1],
-    ["Lo detengo sin motivo legal.", 0]] },
 ];
