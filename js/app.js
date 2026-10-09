@@ -16,6 +16,8 @@
     FBI: ["Director FBI", "Subdirector FBI", "Director Ejecutivo", "Director Asistente", "Subdirector Ejecutivo", "Subdirector Asistente", "Jefe de Área", "Jefe de Supervisores", "Supervisor Especial", "Supervisor Adjunto", "Oficial Especial", "Oficial Adjunto", "Agente Especial", "Agente Adjunto", "Agente de Campo", "Agente de Apoyo", "Agente en Pruebas"],
   };
   const OTRO = "__otro";
+  // Cargos del Hospital Central, de mayor a menor
+  const CARGOS = ["Director General", "Subdirector General", "Supervisor/a", "Médico/a Residente", "Cirujano/a", "Doctor/a", "Enfermero/a", "Auxiliar", "Celador/a", "En prácticas"];
 
   const estado = { datos: null, preguntas: [], respuestas: [], actual: 0, resultado: null, observaciones: "", apto: true, editado: false };
 
@@ -63,6 +65,12 @@
     $("#rango").hidden = !libre;
     if (libre && enfocar) $("#rango").focus();
   }
+  function alternarCargoLibre(enfocar) {
+    const libre = $("#cargo-sel").value === OTRO;
+    $("#cargo").hidden = !libre;
+    if (libre && enfocar) $("#cargo").focus();
+  }
+  const valorCargo = () => ($("#cargo-sel").value === OTRO ? $("#cargo").value.trim() : $("#cargo-sel").value || "");
   const valorRango = () => ($("#rango-sel").value === OTRO ? $("#rango").value.trim() : $("#rango-sel").value || "");
 
   function actualizarValidez() {
@@ -81,7 +89,17 @@
     $("#fecha-evaluacion").value = hoyISO();
     $("#fecha-emision").value = hoyISO();
     const ev = leer("psico-evaluador");
-    if (ev) { $("#evaluador").value = ev.evaluador || ""; $("#cargo").value = ev.cargo || ""; $("#firma").value = ev.firma || ""; }
+    $("#cargo-sel").innerHTML = `<option value="" disabled selected>Selecciona el cargo</option>` +
+      CARGOS.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("") +
+      `<option value="${OTRO}">Otro (escribir a mano)</option>`;
+    if (ev) {
+      $("#evaluador").value = ev.evaluador || "";
+      $("#firma").value = ev.firma || "";
+      if (CARGOS.includes(ev.cargo)) $("#cargo-sel").value = ev.cargo;
+      else if (ev.cargo) { $("#cargo-sel").value = OTRO; $("#cargo").value = ev.cargo; }
+    }
+    alternarCargoLibre(false);
+    $("#cargo-sel").addEventListener("change", () => { $("#cargo-sel").removeAttribute("aria-invalid"); alternarCargoLibre(true); });
     actualizarRangos(); actualizarValidez(); actualizarAyudaNum();
     document.querySelectorAll('input[name="faccion"]').forEach((r) => r.addEventListener("change", actualizarRangos));
     $("#rango-sel").addEventListener("change", () => { $("#rango-sel").removeAttribute("aria-invalid"); alternarRangoLibre(true); });
@@ -94,10 +112,12 @@
 
   function comenzar(e) {
     e.preventDefault();
-    const req = ["#nombre", "#placa", "#rango-sel", "#rango", "#nacimiento", "#fecha-evaluacion", "#fecha-emision", "#evaluador", "#cargo"];
+    const req = ["#nombre", "#placa", "#rango-sel", "#rango", "#nacimiento", "#fecha-evaluacion", "#fecha-emision", "#evaluador", "#cargo-sel", "#cargo"];
     const vacio = (s) => {
       if (s === "#rango-sel") return !$("#rango-sel").value;
       if (s === "#rango") return $("#rango-sel").value === OTRO && !$("#rango").value.trim();
+      if (s === "#cargo-sel") return !$("#cargo-sel").value;
+      if (s === "#cargo") return $("#cargo-sel").value === OTRO && !$("#cargo").value.trim();
       return !$(s).value.trim();
     };
     const vacios = req.filter(vacio);
@@ -121,7 +141,7 @@
       fechaEmision,
       validoHasta: sumarMeses(fechaEmision, Number($("#validez").value)),
       evaluador: $("#evaluador").value.trim(),
-      cargo: $("#cargo").value.trim(),
+      cargo: valorCargo(),
       firma: $("#firma").value.trim() || $("#evaluador").value.trim(),
     };
     guardar("psico-evaluador", { evaluador: estado.datos.evaluador, cargo: estado.datos.cargo, firma: $("#firma").value.trim() });
