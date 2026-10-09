@@ -152,7 +152,12 @@ async function dibujarCertificado(canvas, datos, recursos) {
   imagenCentrada(logo, 70 + 105, 180, 210);
   imagenCentrada(escudo, W - 70 - 105, 180, 220);
   texto("HOSPITAL CENTRAL · EMS", W / 2, 130, { px: 21, peso: "700", color: col.f2, align: "center", esp: 6 });
-  texto("PSICOTÉCNICO", W / 2, 212, { px: 66, peso: PESO_TITULO, fam: FUENTE_TITULO, color: "#FFFFFF", align: "center", esp: 2 });
+  // El título se ajusta al hueco entre el logo EMS y el escudo de la facción
+  const tituloCab = "EXAMEN PSICOTÉCNICO";
+  let pxCab = 62;
+  fuente(pxCab, PESO_TITULO, FUENTE_TITULO);
+  while (ctx.measureText(tituloCab).width + tituloCab.length * 1.5 > 620 && pxCab > 36) { pxCab -= 1; fuente(pxCab, PESO_TITULO, FUENTE_TITULO); }
+  texto(tituloCab, W / 2, 210, { px: pxCab, peso: PESO_TITULO, fam: FUENTE_TITULO, color: "#FFFFFF", align: "center", esp: 1.5 });
   texto((FACCIONES[datos.faccion] || "").toUpperCase(), W / 2, 262, { px: 22, color: "rgba(255,255,255,.86)", align: "center", esp: 3 });
 
   // ── Título del documento ──
