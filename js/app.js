@@ -298,6 +298,10 @@
       apto: estado.apto,
       observaciones: estado.observaciones,
       puntuacion: estado.resultado.pct,
+      puntos: estado.resultado.total,
+      maximo: estado.resultado.max,
+      alertas: estado.resultado.alertas,
+      competencias: estado.resultado.competencias.map((c) => ({ nombre: c.nombre, pct: c.pct })),
       preguntas: estado.resultado.preguntas,
       referencia: `PSI-${d.faccion}-${d.placa.replace(/\W+/g, "")}-${d.fechaEvaluacion.replace(/-/g, "")}`,
     };

@@ -1,15 +1,35 @@
 /*
- * Dibuja el Certificado de Psicotécnico del Hospital Central en un <canvas>
+ * Certificado de Psicotécnico del Hospital Central, dibujado en un <canvas>
  * de 1224 × 2016 px (proporción de papel Legal, 8,5 × 14 in).
+ *
+ * Diseño: cabecera y pie con los colores de la facción del agente, ficha tipo
+ * credencial, competencias con barras, observaciones y línea de validez.
+ * Tipografías: Benguiat Bk BT Bold (títulos) y BenguiatGot Bk BT (texto),
+ * declaradas en css/styles.css y guardadas en assets/fonts.
  */
 
-const CERT = { W: 1224, H: 2016 };
-const CERT_COLORES = { gris: "#D3D3D3", azul: "#1A9AD6", marino: "#1F4E79", tinta: "#111111", firma: "#1B2E6B" };
+const CERT = { W: 1224, H: 2016, M: 80 };
+
 const FACCIONES = {
   LSPD: "Los Santos Police Department",
   LSSD: "Los Santos Sheriff Department",
   FBI: "Federal Bureau of Investigation",
 };
+
+// Colores por facción: f1 = principal, f2 = acento dorado, f3 = fondo suave de la ficha
+const COLORES_FACCION = {
+  LSPD: { f1: "#13234A", f2: "#C9A54A", f3: "#DDE4F2" },
+  LSSD: { f1: "#1E3B2F", f2: "#C9A54A", f3: "#EFE6CC" },
+  FBI: { f1: "#0F2A5F", f2: "#E0B83B", f3: "#DCE5F5" },
+};
+const CERT_COLORES = {
+  tinta: "#15191E", gris: "#5B6670", linea: "#D6DCE3", pista: "#E3E8EE",
+  ok: "#1E7F4F", okFondo: "#E6F4EC", mal: "#B3261E", malFondo: "#FBE9E7", firma: "#1B2E6B",
+};
+
+const FUENTE_TITULO = '"Benguiat Bk BT", "Lora", Georgia, serif';
+const FUENTE_TEXTO = '"BenguiatGot Bk BT", "Lora", Georgia, serif';
+const FUENTE_FIRMA = '"Dancing Script", "Brush Script MT", cursive';
 
 const _imgCache = {};
 function cargarImagen(src) {
@@ -24,6 +44,14 @@ function cargarImagen(src) {
   return _imgCache[src];
 }
 
+async function cargarFuentesCertificado() {
+  if (!document.fonts) return;
+  const pedidas = [
+    `700 40px ${FUENTE_TITULO}`, `400 20px ${FUENTE_TEXTO}`, `700 20px ${FUENTE_TEXTO}`, `600 40px ${FUENTE_FIRMA}`,
+  ];
+  try { await Promise.all(pedidas.map((f) => document.fonts.load(f))); } catch (e) { /* se usan las fuentes de respaldo */ }
+}
+
 function fechaPartes(iso) {
   if (!iso) return ["", "", ""];
   const [a, m, d] = iso.split("-");
@@ -31,150 +59,11 @@ function fechaPartes(iso) {
 }
 function fechaTexto(iso) {
   const [d, m, a] = fechaPartes(iso);
-  return iso ? `${d}/${m}/${a}` : "";
-}
-
-async function dibujarCertificado(canvas, datos, recursos) {
-  canvas.width = CERT.W;
-  canvas.height = CERT.H;
-  const ctx = canvas.getContext("2d");
-  const srcFaccion = recursos.facciones && recursos.facciones[datos.faccion];
-  const [logo, sello, logoFaccion] = await Promise.all([
-    cargarImagen(recursos.logo),
-    cargarImagen(recursos.sello),
-    srcFaccion ? cargarImagen(srcFaccion).catch(() => null) : Promise.resolve(null),
-  ]);
-  try { await document.fonts.load('48px "Dancing Script"'); } catch (e) { /* usa la fuente de respaldo */ }
-
-  const SANS = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
-  const font = (px, peso = "400", fam = SANS) => (ctx.font = `${peso} ${px}px ${fam}`);
-  const texto = (t, x, y, px = 22, peso = "400", color = CERT_COLORES.tinta, align = "left") => {
-    font(px, peso); ctx.fillStyle = color; ctx.textAlign = align; ctx.fillText(t, x, y); ctx.textAlign = "left";
-  };
-  const linea = (x1, y1, x2, y2, color = CERT_COLORES.tinta, w = 1) => {
-    ctx.strokeStyle = color; ctx.lineWidth = w; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-  };
-  const banda = (y1, y2, x1 = 46, x2 = 1184) => { ctx.fillStyle = CERT_COLORES.gris; ctx.fillRect(x1, y1, x2 - x1, y2 - y1); };
-  const caja = (y1, y2, x1 = 32, x2 = 1181) => {
-    ctx.strokeStyle = CERT_COLORES.azul; ctx.lineWidth = 2.4; ctx.beginPath();
-    ctx.moveTo(x1, y1); ctx.lineTo(x1, y2); ctx.lineTo(x2, y2); ctx.lineTo(x2, y1); ctx.stroke();
-  };
-  // Campo con valor sobre una línea
-  const campo = (valor, x1, x2, y, px = 22, peso = "400", align = "left") => {
-    linea(x1, y + 4, x2, y + 4, CERT_COLORES.tinta, 1);
-    const x = align === "center" ? (x1 + x2) / 2 : x1 + 6;
-    texto(valor || "", x, y - 2, px, peso, CERT_COLORES.tinta, align);
-  };
-
-  // Fondo
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, CERT.W, CERT.H);
-
-  // Encabezado
-  ctx.drawImage(logo, 55, 50, 240, 245);
-  font(54, "700", '"Times New Roman", Times, "Liberation Serif", serif');
-  ctx.fillStyle = CERT_COLORES.tinta; ctx.textAlign = "center";
-  ctx.fillText("HOSPITAL CENTRAL", 697, 195); ctx.textAlign = "left";
-  linea(348, 217, 1106, 217, CERT_COLORES.marino, 3);
-  linea(348, 278, 1106, 278, CERT_COLORES.marino, 3);
-  texto("CERTIFICADO DE PSICOTÉCNICO", 722, 258, 25, "700", CERT_COLORES.tinta, "center");
-  texto("Departamento de Salud Mental y Evaluación Psicológica", 726, 309, 21, "400", CERT_COLORES.tinta, "center");
-
-  // Datos del funcionario
-  banda(345, 381);
-  texto("DATOS DEL FUNCIONARIO", 560, 372, 24, "700", CERT_COLORES.tinta, "center");
-  texto("Nombre y Apellidos:", 77, 410, 22); campo(datos.nombre, 290, 1150, 406, 24, "700");
-  texto("ID/Placa:", 80, 456, 22); campo(datos.placa, 180, 600, 452);
-  texto("Facción:", 640, 456, 22); campo(datos.faccion ? `${datos.faccion} · ${FACCIONES[datos.faccion] || ""}` : "", 730, 1150, 452, 20);
-  texto("Rango:", 77, 501, 22); campo(datos.rango, 153, 600, 497);
-  texto("Fecha de nacimiento:", 77, 545, 22); campo(fechaTexto(datos.nacimiento), 300, 600, 541);
-  // Escudo de la facción del agente
-  if (logoFaccion) ctx.drawImage(logoFaccion, 1040, 462, 100, 100);
-
-  // Evaluación psicotécnica
-  banda(574, 609, 40, 1174);
-  texto("EVALUACIÓN PSICOTÉCNICA", 508, 601, 24, "700", CERT_COLORES.tinta, "center");
-  const parrafo = [
-    "El/la funcionario/a arriba identificado/a ha sido sometido/a a una evaluación psicotécnica",
-    "y psicológica integral, conforme a los protocolos internos del Hospital Central y del Servicio",
-    "Médico de Emergencias (EMS).",
-    "",
-    "Durante la evaluación se valoraron la estabilidad emocional, el manejo del estrés, la toma de",
-    "decisiones bajo presión, la capacidad de trabajo en equipo y la idoneidad psicológica para la",
-    "atención de emergencias.",
-  ];
-  parrafo.forEach((l, i) => texto(l, 85, 652 + i * 34, 21));
-
-  // Resultado final
-  banda(879, 918, 32, 1181); caja(918, 1015);
-  texto("RESULTADO FINAL", 80, 907, 24, "700");
-  [["APTO/A PARA EL SERVICIO", true], ["NO APTO/A PARA EL SERVICIO", false]].forEach(([t, valor], i) => {
-    const y = 948 + i * 34;
-    ctx.strokeStyle = CERT_COLORES.tinta; ctx.lineWidth = 2; ctx.strokeRect(45, y - 21, 24, 24);
-    if (datos.apto === valor) {
-      linea(49, y - 17, 65, y - 1, CERT_COLORES.tinta, 2.5);
-      linea(65, y - 17, 49, y - 1, CERT_COLORES.tinta, 2.5);
-    }
-    texto(t, 90, y - 1, 19);
-  });
-  if (datos.puntuacion != null) {
-    texto(`Puntuación: ${datos.puntuacion} %`, 1150, 948, 20, "700", CERT_COLORES.tinta, "right");
-    texto(`Preguntas evaluadas: ${datos.preguntas}`, 1150, 982, 19, "400", CERT_COLORES.tinta, "right");
-  }
-
-  // Observaciones
-  banda(1054, 1090, 28, 1181); caja(1090, 1272, 28, 1178);
-  texto("OBSERVACIONES:", 36, 1081, 24, "700");
-  const lineasY = [1134, 1169, 1203, 1238];
-  font(21);
-  const renglones = partirTexto(ctx, datos.observaciones || "", 1100);
-  lineasY.forEach((y, i) => {
-    linea(45, y, i === 3 ? 1160 : 1160, y, "#555555", 0.8);
-    if (renglones[i]) texto(renglones[i], 50, y - 7, 21);
-  });
-
-  // Validez
-  banda(1352, 1395, 28, 1184); caja(1395, 1565, 28, 1182);
-  texto("VALIDEZ:", 42, 1382, 24, "700");
-  const filaFecha = (etiqueta, iso, y, x0) => {
-    texto(etiqueta, 45, y, 22);
-    const [d, m, a] = fechaPartes(iso);
-    campo(d, x0, x0 + 55, y - 4, 21, "700", "center");
-    texto("/", x0 + 60, y - 2, 21);
-    campo(m, x0 + 72, x0 + 127, y - 4, 21, "700", "center");
-    texto("/", x0 + 132, y - 2, 21);
-    campo(a, x0 + 144, x0 + 219, y - 4, 21, "700", "center");
-  };
-  filaFecha("Fecha de Evaluación:", datos.fechaEvaluacion, 1420, 270);
-  filaFecha("Fecha de Emisión:", datos.fechaEmision, 1468, 240);
-  filaFecha("Válido hasta:", datos.validoHasta, 1518, 184);
-
-  // Profesional responsable
-  banda(1593, 1636, 30, 1186); caja(1636, 1818, 32, 1188);
-  texto("PROFESIONAL RESPONSABLE:", 37, 1624, 24, "700");
-  texto("Evaluador/a:", 48, 1683, 22); campo(datos.evaluador, 180, 500, 1679, 21, "700");
-  texto("Firma:", 545, 1683, 22);
-  linea(615, 1683, 1000, 1683, CERT_COLORES.tinta, 1);
-  if (datos.firma) {
-    const hayCursiva = document.fonts && document.fonts.check('44px "Dancing Script"');
-    ctx.font = hayCursiva ? '600 44px "Dancing Script", cursive' : 'italic 400 38px "Brush Script MT", "Segoe Script", Georgia, serif';
-    ctx.fillStyle = CERT_COLORES.firma; ctx.textAlign = "center";
-    ctx.fillText(datos.firma, 807, 1676); ctx.textAlign = "left";
-  }
-  texto("Cargo:", 48, 1732, 22); campo(datos.cargo, 122, 500, 1728, 21, "700");
-  texto("Firma Sello Oficial:", 48, 1782, 22);
-  linea(290, 1818, 640, 1818, CERT_COLORES.azul, 2.4);
-  ctx.globalAlpha = 0.9;
-  ctx.drawImage(sello, 335, 1735, 265, 260);
-  ctx.globalAlpha = 1;
-
-  // Referencia del documento
-  if (datos.referencia) texto(`Ref. ${datos.referencia}`, 1180, 1990, 15, "400", "#777777", "right");
-  return canvas;
+  return iso ? `${d}/${m}/${a}` : "—";
 }
 
 function partirTexto(ctx, t, ancho) {
-  const palabras = t.replace(/\s+/g, " ").trim().split(" ");
+  const palabras = String(t || "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
   const out = [];
   let actual = "";
   palabras.forEach((p) => {
@@ -186,9 +75,183 @@ function partirTexto(ctx, t, ancho) {
   return out;
 }
 
-/** Número de renglones que ocupa un texto en el recuadro de observaciones (máx. 4). */
+const OBS = { px: 24, ancho: 1020, maxRenglones: 4 };
+/** Número de renglones que ocupa un texto en el recuadro de observaciones. */
 function renglonesObservaciones(t) {
   const c = document.createElement("canvas").getContext("2d");
-  c.font = '400 21px Arial, "Helvetica Neue", Helvetica, sans-serif';
-  return partirTexto(c, t, 1100).length;
+  c.font = `400 ${OBS.px}px ${FUENTE_TEXTO}`;
+  return partirTexto(c, t, OBS.ancho).length;
+}
+
+async function dibujarCertificado(canvas, datos, recursos) {
+  const { W, H, M } = CERT;
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+  const col = COLORES_FACCION[datos.faccion] || COLORES_FACCION.LSPD;
+  const srcFaccion = recursos.facciones && recursos.facciones[datos.faccion];
+  const [logo, sello, escudo] = await Promise.all([
+    cargarImagen(recursos.logo),
+    cargarImagen(recursos.sello),
+    srcFaccion ? cargarImagen(srcFaccion).catch(() => null) : Promise.resolve(null),
+  ]);
+  await cargarFuentesCertificado();
+
+  // ── utilidades de dibujo ──
+  const fuente = (px, peso, fam) => (ctx.font = `${peso} ${px}px ${fam}`);
+  const texto = (t, x, y, { px = 22, peso = "400", fam = FUENTE_TEXTO, color = CERT_COLORES.tinta, align = "left", esp = 0 } = {}) => {
+    fuente(px, peso, fam);
+    ctx.fillStyle = color;
+    ctx.textAlign = align;
+    if ("letterSpacing" in ctx) ctx.letterSpacing = esp ? `${esp}px` : "0px";
+    ctx.fillText(t, x, y);
+    if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+    ctx.textAlign = "left";
+  };
+  const rect = (x, y, w, h, r, relleno, borde, grosor = 2) => {
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+    if (relleno) { ctx.fillStyle = relleno; ctx.fill(); }
+    if (borde) { ctx.strokeStyle = borde; ctx.lineWidth = grosor; ctx.stroke(); }
+  };
+  const linea = (x1, y1, x2, y2, color, g = 2) => {
+    ctx.strokeStyle = color; ctx.lineWidth = g; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  };
+  const tituloSeccion = (t, y) => {
+    texto(t, M, y, { px: 19, peso: "700", fam: FUENTE_TEXTO, color: col.f1, esp: 3.5 });
+    linea(M, y + 12, W - M, y + 12, col.f2, 2.5);
+  };
+  const imagenCentrada = (im, cx, cy, lado) => {
+    if (!im) return;
+    const k = lado / Math.max(im.width, im.height);
+    const w = im.width * k, h = im.height * k;
+    ctx.drawImage(im, cx - w / 2, cy - h / 2, w, h);
+  };
+  const check = (x, y, s, color) => {
+    ctx.strokeStyle = color; ctx.lineWidth = s * 0.16; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.beginPath(); ctx.moveTo(x, y + s * 0.5); ctx.lineTo(x + s * 0.36, y + s * 0.85); ctx.lineTo(x + s, y + s * 0.12); ctx.stroke();
+    ctx.lineCap = "butt";
+  };
+  const cruz = (x, y, s, color) => {
+    ctx.strokeStyle = color; ctx.lineWidth = s * 0.16; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + s, y + s); ctx.moveTo(x + s, y); ctx.lineTo(x, y + s); ctx.stroke();
+    ctx.lineCap = "butt";
+  };
+
+  // ── Fondo ──
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, W, H);
+
+  // ── Cabecera de facción ──
+  ctx.fillStyle = col.f1;
+  ctx.fillRect(0, 0, W, 360);
+  ctx.fillStyle = col.f2;
+  ctx.fillRect(0, 360, W, 16);
+  imagenCentrada(logo, 70 + 105, 180, 210);
+  imagenCentrada(escudo, W - 70 - 105, 180, 220);
+  texto("HOSPITAL CENTRAL · EMS", W / 2, 130, { px: 21, peso: "700", color: col.f2, align: "center", esp: 6 });
+  texto("PSICOTÉCNICO", W / 2, 212, { px: 66, peso: "700", fam: FUENTE_TITULO, color: "#FFFFFF", align: "center", esp: 2 });
+  texto((FACCIONES[datos.faccion] || "").toUpperCase(), W / 2, 262, { px: 22, color: "rgba(255,255,255,.86)", align: "center", esp: 3 });
+
+  // ── Título del documento ──
+  texto("CERTIFICADO DE APTITUD", W / 2, 452, { px: 38, peso: "700", fam: FUENTE_TITULO, color: col.f1, align: "center", esp: 5 });
+  texto("Departamento de Salud Mental y Evaluación Psicológica", W / 2, 490, { px: 20, color: CERT_COLORES.gris, align: "center" });
+
+  // ── Ficha del agente ──
+  const fy = 530, fh = 230;
+  const grad = ctx.createLinearGradient(M, 0, W - M, 0);
+  grad.addColorStop(0, col.f3); grad.addColorStop(0.6, "#FFFFFF");
+  rect(M, fy, W - 2 * M, fh, 14, grad, col.f1, 2.5);
+  rect(M + 26, fy + 26, 170, fh - 52, 10, col.f1);
+  imagenCentrada(escudo || logo, M + 26 + 85, fy + fh / 2, 130);
+  const fx = M + 230;
+  fuente(46, "700", FUENTE_TITULO);
+  let nombre = datos.nombre || "";
+  while (ctx.measureText(nombre).width > W - M - fx - 20 && nombre.length > 3) nombre = nombre.slice(0, -2) + "…";
+  texto(nombre, fx, fy + 76, { px: 46, peso: "700", fam: FUENTE_TITULO });
+  texto(`${datos.rango || ""} · ${datos.faccion || ""}`, fx, fy + 112, { px: 24, peso: "700", color: col.f1 });
+  const filas = [
+    ["ID / Placa", datos.placa || "—"],
+    ["Nacimiento", fechaTexto(datos.nacimiento)],
+    ["Preguntas", `${datos.preguntas ?? "—"} · ${datos.alertas ?? 0} ${datos.alertas === 1 ? "incompatible" : "incompatibles"}`],
+  ];
+  filas.forEach(([k, v], i) => {
+    texto(k, fx, fy + 152 + i * 30, { px: 20, color: CERT_COLORES.gris });
+    texto(v, fx + 150, fy + 152 + i * 30, { px: 20, peso: "700" });
+  });
+
+  // ── Resultado y puntuación ──
+  const ry = 790, rh = 124, rw = (W - 2 * M - 26) / 2;
+  const colorRes = datos.apto ? CERT_COLORES.ok : CERT_COLORES.mal;
+  rect(M, ry, rw, rh, 14, colorRes);
+  texto("RESULTADO FINAL", M + 30, ry + 40, { px: 17, peso: "700", color: "rgba(255,255,255,.85)", esp: 3.5 });
+  if (datos.apto) check(M + 30, ry + 60, 40, "#FFFFFF"); else cruz(M + 34, ry + 64, 32, "#FFFFFF");
+  texto(datos.apto ? "APTO/A" : "NO APTO/A", M + 92, ry + 100, { px: 44, peso: "700", fam: FUENTE_TITULO, color: "#FFFFFF", esp: 1.5 });
+  const px2 = M + rw + 26;
+  rect(px2, ry, rw, rh, 14, "#FFFFFF", colorRes, 2.5);
+  texto("PUNTUACIÓN", px2 + 30, ry + 46, { px: 17, peso: "700", color: CERT_COLORES.gris, esp: 3.5 });
+  if (datos.puntos != null) texto(`${datos.puntos} / ${datos.maximo} puntos`, px2 + 30, ry + 82, { px: 21 });
+  texto(`${datos.puntuacion ?? "—"}%`, px2 + rw - 30, ry + 96, { px: 70, peso: "700", fam: FUENTE_TITULO, color: colorRes, align: "right" });
+
+  // ── Competencias evaluadas ──
+  tituloSeccion("COMPETENCIAS EVALUADAS", 984);
+  const comps = datos.competencias || [];
+  const cw = (W - 2 * M - 60) / 2;
+  comps.forEach((c, i) => {
+    const cx = M + (i % 2) * (cw + 60);
+    const cy = 1036 + Math.floor(i / 2) * 64;
+    texto(c.corto || c.nombre, cx, cy, { px: 20, peso: "700" });
+    texto(`${c.pct}%`, cx + cw, cy, { px: 20, peso: "700", align: "right", color: c.pct < 50 ? CERT_COLORES.mal : CERT_COLORES.tinta });
+    rect(cx, cy + 14, cw, 11, 5.5, CERT_COLORES.pista);
+    if (c.pct > 0) rect(cx, cy + 14, Math.max(11, (cw * c.pct) / 100), 11, 5.5, c.pct < 50 ? CERT_COLORES.mal : col.f1);
+  });
+
+  // ── Observaciones ──
+  tituloSeccion("OBSERVACIONES", 1250);
+  fuente(OBS.px, "400", FUENTE_TEXTO);
+  const renglones = partirTexto(ctx, datos.observaciones, OBS.ancho).slice(0, OBS.maxRenglones);
+  const oy = 1300;
+  ctx.fillStyle = col.f2;
+  ctx.fillRect(M, oy - 8, 6, Math.max(1, renglones.length) * 38 + 8);
+  renglones.forEach((r, i) => texto(r, M + 30, oy + 22 + i * 38, { px: OBS.px }));
+
+  // ── Validez (línea de tiempo) ──
+  tituloSeccion("VALIDEZ", 1510);
+  const hitos = [["EVALUACIÓN", datos.fechaEvaluacion], ["EMISIÓN", datos.fechaEmision], ["VÁLIDO HASTA", datos.validoHasta]];
+  const lx1 = M + 170, lx2 = W - M - 170, ly = 1574;
+  linea(lx1, ly, lx2, ly, CERT_COLORES.linea, 4);
+  hitos.forEach(([k, v], i) => {
+    const x = lx1 + ((lx2 - lx1) * i) / 2;
+    const c = i === 2 ? CERT_COLORES.ok : col.f1;
+    ctx.beginPath(); ctx.arc(x, ly, 17, 0, Math.PI * 2); ctx.fillStyle = "#FFFFFF"; ctx.fill();
+    ctx.lineWidth = 3; ctx.strokeStyle = c; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, ly, 10, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill();
+    texto(k, x, ly + 52, { px: 16, peso: "700", color: CERT_COLORES.gris, align: "center", esp: 2.5 });
+    texto(fechaTexto(v), x, ly + 88, { px: 28, peso: "700", align: "center" });
+  });
+
+  // ── Profesional responsable ──
+  tituloSeccion("PROFESIONAL RESPONSABLE", 1730);
+  const sy = 1870;
+  if (datos.firma) {
+    const hayCursiva = !!document.fonts && [...document.fonts].some((f) => f.family.replace(/["']/g, "") === "Dancing Script" && f.status === "loaded");
+    ctx.font = hayCursiva ? `600 50px ${FUENTE_FIRMA}` : `italic 400 42px Georgia, serif`;
+    ctx.fillStyle = CERT_COLORES.firma;
+    ctx.fillText(datos.firma, M + 10, sy - 8);
+  }
+  linea(M, sy, M + 440, sy, CERT_COLORES.tinta, 2);
+  texto(datos.evaluador || "", M, sy + 32, { px: 21, peso: "700" });
+  texto(datos.cargo || "", M, sy + 60, { px: 20, color: CERT_COLORES.gris });
+  ctx.globalAlpha = 0.92;
+  imagenCentrada(sello, W - M - 125, 1832, 240);
+  ctx.globalAlpha = 1;
+
+  // ── Pie de facción ──
+  ctx.fillStyle = col.f2;
+  ctx.fillRect(0, H - 82, W, 10);
+  ctx.fillStyle = col.f1;
+  ctx.fillRect(0, H - 72, W, 72);
+  texto("HOSPITAL CENTRAL · DOCUMENTO OFICIAL", M - 10, H - 28, { px: 16, peso: "700", color: "#FFFFFF", esp: 3 });
+  if (datos.referencia) texto(`REF. ${datos.referencia}`, W - M + 10, H - 28, { px: 16, color: "#FFFFFF", align: "right", esp: 2 });
+  return canvas;
 }
