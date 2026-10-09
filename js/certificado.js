@@ -38,7 +38,12 @@ async function dibujarCertificado(canvas, datos, recursos) {
   canvas.width = CERT.W;
   canvas.height = CERT.H;
   const ctx = canvas.getContext("2d");
-  const [logo, sello] = await Promise.all([cargarImagen(recursos.logo), cargarImagen(recursos.sello)]);
+  const srcFaccion = recursos.facciones && recursos.facciones[datos.faccion];
+  const [logo, sello, logoFaccion] = await Promise.all([
+    cargarImagen(recursos.logo),
+    cargarImagen(recursos.sello),
+    srcFaccion ? cargarImagen(srcFaccion).catch(() => null) : Promise.resolve(null),
+  ]);
   try { await document.fonts.load('48px "Dancing Script"'); } catch (e) { /* usa la fuente de respaldo */ }
 
   const SANS = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
@@ -83,6 +88,8 @@ async function dibujarCertificado(canvas, datos, recursos) {
   texto("Facción:", 640, 456, 22); campo(datos.faccion ? `${datos.faccion} · ${FACCIONES[datos.faccion] || ""}` : "", 730, 1150, 452, 20);
   texto("Rango:", 77, 501, 22); campo(datos.rango, 153, 600, 497);
   texto("Fecha de nacimiento:", 77, 545, 22); campo(fechaTexto(datos.nacimiento), 300, 600, 541);
+  // Escudo de la facción del agente
+  if (logoFaccion) ctx.drawImage(logoFaccion, 1040, 462, 100, 100);
 
   // Evaluación psicotécnica
   banda(574, 609, 40, 1174);

@@ -111,6 +111,8 @@ input[aria-invalid], select[aria-invalid] { border-color: var(--bad); background
   min-height: 46px; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2);
   font-family: var(--f-mono); font-weight: 600; transition: background .12s, border-color .12s;
 }
+.segmentos.faccion span { padding-block: 12px; gap: 4px; }
+.segmentos span img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 2px; }
 .segmentos span b { font: 800 19px/1 var(--f-display); font-stretch: 85%; letter-spacing: .04em; }
 .segmentos span small { font: 500 11px/1.2 var(--f-body); color: var(--muted); }
 .segmentos label:hover span { border-color: var(--muted); }
@@ -133,7 +135,8 @@ input[aria-invalid], select[aria-invalid] { border-color: var(--bad); background
 
 /* ── Examen ── */
 .examen-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.examen-agente { font-weight: 600; min-width: 0; }
+.examen-agente { font-weight: 600; min-width: 0; display: flex; align-items: center; gap: 10px; }
+.examen-agente img { width: 40px; height: 40px; object-fit: contain; flex: none; }
 .examen-agente small { color: var(--muted); font-weight: 400; }
 .progreso-txt { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
 .progreso-txt b { color: var(--ink); font-size: 20px; }

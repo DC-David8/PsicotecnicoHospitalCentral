@@ -48,7 +48,7 @@ Los umbrales se cambian en `js/evaluacion.js` → `CRITERIOS`.
 ├── js/certificado.js     Dibujo del certificado (canvas 1224 × 2016)
 ├── js/pdf.js             Exportación a PDF sin librerías externas
 ├── js/app.js             Flujo de la aplicación
-└── assets/               Logo EMS y sello oficial
+└── assets/               Logo EMS, sello oficial y escudos de las facciones (assets/facciones)
 ```
 
 No necesita servidor ni dependencias: es HTML, CSS y JavaScript puros.
@@ -76,7 +76,7 @@ git push -u origin main
 - **Añadir o editar preguntas**: `js/preguntas.js`. Copia un bloque `{ c, t, o }` y asigna la competencia en `c`.
 - **Rangos de cada facción**: `js/app.js` → `RANGOS`. El desplegable incluye la opción "Otro (escribir a mano)" para rangos que no estén en la lista.
 - **Frases del criterio**: `js/preguntas.js` → `COMPETENCIAS` (fortaleza / refuerzo) y `js/evaluacion.js` → `redactarCriterio`.
-- **Logo y sello**: reemplaza los PNG de `assets/` manteniendo el nombre.
+- **Logo, sello y escudos**: reemplaza los PNG de `assets/` y `assets/facciones/` manteniendo el nombre.
 
 ---
 

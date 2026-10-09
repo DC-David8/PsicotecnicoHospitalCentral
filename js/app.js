@@ -3,7 +3,11 @@
  */
 (() => {
   const $ = (s) => document.querySelector(s);
-  const RECURSOS = window.RECURSOS || { logo: "assets/logo-ems.png", sello: "assets/sello-oficial.png" };
+  const RECURSOS = window.RECURSOS || {
+    logo: "assets/logo-ems.png",
+    sello: "assets/sello-oficial.png",
+    facciones: { LSPD: "assets/facciones/lspd.png", LSSD: "assets/facciones/lssd.png", FBI: "assets/facciones/fbi.png" },
+  };
 
   // Rangos oficiales de cada facción, de mayor a menor (tabla de rangos del servidor)
   const RANGOS = {
@@ -133,6 +137,8 @@
     estado.editado = false;
     const d = estado.datos;
     $("#examen-agente").innerHTML = `${esc(d.rango)} ${esc(d.nombre)} <small>· ${esc(d.faccion)} · Placa ${esc(d.placa)}</small>`;
+    const logoFaccion = document.querySelector(`#f-${d.faccion.toLowerCase()} + span img`);
+    if (logoFaccion) { $("#examen-logo").src = logoFaccion.src; $("#examen-logo").alt = d.faccion; $("#examen-logo").hidden = false; }
     $("#p-total").textContent = n;
     $("#confirmar-cancelar").hidden = true;
     irA("examen");
