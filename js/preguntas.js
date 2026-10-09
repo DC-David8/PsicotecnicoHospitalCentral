@@ -69,7 +69,7 @@ const BANCO = [
     ["Me muteo en TS3 y no hablo hasta que termine el rol.", 3],
     ["Me muteo en TS3, aunque tardo un poco en hacerlo.", 2],
     ["Comento por TS3 lo que ha pasado, sin dar posiciones.", 1],
-    ["Envío un QRR para que mis compañeros vengan a por mí.", 0]] },
+    ["Envío un QRR (agente en peligro) para que mis compañeros vengan a por mí.", 0]] },
   { c: "estabilidad", t: "Acabas de abatir a un sospechoso tras un tiroteo muy tenso. Al informar por radio…", o: [
     ["Comunico con calma que el sospechoso ha sido abatido y pido EMS.", 3],
     ["Informo de que está abatido, aunque con un tono alterado.", 2],
@@ -107,16 +107,16 @@ const BANCO = [
     ["Desenfundo y abro fuego, aunque estemos en clara inferioridad.", 0]] },
 
   // ───────────── MANEJO DEL ESTRÉS ─────────────
-  { c: "estres", t: "En el robo al Banco Central (DEFCON 1) el tiroteo se alarga y la tensión es máxima.", o: [
+  { c: "estres", t: "En el robo al Banco Central (DEFCON 1, alerta máxima) el tiroteo se alarga y la tensión es máxima.", o: [
     ["Mantengo mi posición, informo de lo que veo y sigo al H-50.", 3],
     ["Me centro solo en mi sector y dejo la radio a los demás.", 2],
     ["Salgo de cobertura para avanzar y terminar el tiroteo cuanto antes, cueste lo que cueste.", 1],
     ["Abandono el operativo porque la situación me supera.", 0]] },
   { c: "estres", t: "Una persecución supera los 10 minutos y empiezas a frustrarte.", o: [
-    ["Doy los avisos reglamentarios y después intento código 100 o pinchar.", 3],
+    ["Doy los avisos reglamentarios y después intento un código 100 (bloquear el vehículo) o pinchar.", 3],
     ["Sigo detrás a distancia prudente y pido a otra unidad que lo releve para no perderlo.", 2],
     ["Pincho las ruedas directamente, sin dar los avisos.", 1],
-    ["Le hago un código PIT para acabar de una vez.", 0]] },
+    ["Le hago un código PIT (desestabilizar el vehículo) para acabar de una vez.", 0]] },
   { c: "estres", t: "Hay un robo en curso y siguen llegando nuevas solicitudes de robo.", o: [
     ["Respeto el turno de robos y acepto a los primeros solicitantes.", 3],
     ["Pido a central que lleve el turno mientras atiendo el robo actual.", 2],
@@ -138,7 +138,7 @@ const BANCO = [
     ["Termino primero el 10-23 y luego ya veré.", 1],
     ["Ignoro el QRR; ya irá otra unidad.", 0]] },
   { c: "estres", t: "Durante un código 3 (tiroteo en curso) la radio se satura de mensajes.", o: [
-    ["Pido QRX para liberar el canal y comunico solo lo esencial.", 3],
+    ["Pido QRX (silencio en radio) y comunico solo lo esencial.", 3],
     ["Hablo solo cuando me preguntan directamente.", 2],
     ["Repito varias veces mi posición para asegurarme.", 1],
     ["Cambio de canal y actúo por mi cuenta.", 0]] },
@@ -257,10 +257,10 @@ const BANCO = [
     ["No digo nada; es su responsabilidad.", 1],
     ["Lo cubro y disparo yo también.", 0]] },
   { c: "equipo", t: "Estás patrullando y el H-50 solicita un 10-32 (refuerzos) en un robo.", o: [
-    ["Confirmo por radio que voy de camino (10-11) y acudo.", 3],
+    ["Confirmo por radio un 10-11 (en camino) y acudo.", 3],
     ["Acudo, pero sin confirmarlo por radio.", 2],
     ["Espero unos minutos a ver si responde otra unidad que esté más cerca.", 1],
-    ["Me pongo 10-7 para no tener que ir.", 0]] },
+    ["Me pongo 10-7 (fuera de servicio) para no tener que ir.", 0]] },
 
   // ───────────── INTEGRIDAD Y ÉTICA ─────────────
   { c: "integridad", t: "Eres Oficial, terminas el turno y aún llevas las armas reglamentarias.", o: [

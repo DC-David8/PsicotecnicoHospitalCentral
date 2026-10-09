@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Banco de preguntas · Hospital Central</title>
+<link rel="icon" href="assets/logo-ems.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<!--APP-->
+<header class="cabecera">
+  <div class="cabecera-in">
+    <img class="cabecera-logo" src="assets/logo-ems.png" alt="Logotipo EMS" width="56" height="56">
+    <div class="cabecera-txt">
+      <span class="cabecera-org">Hospital Central · Acceso evaluadores</span>
+      <h1>Banco de preguntas</h1>
+    </div>
+    <a class="facciones-tag enlace-cab" href="index.html">← Volver al examen</a>
+  </div>
+</header>
+
+<main class="contenedor">
+  <!-- Acceso -->
+  <section id="vista-acceso" class="vista">
+    <form id="form-acceso" class="bloque acceso" novalidate>
+      <h2 class="titulo-bloque">Acceso restringido</h2>
+      <p class="ayuda">Introduce la contraseña de evaluador para ver todas las preguntas con sus respuestas y puntuaciones.</p>
+      <label class="campo"><span class="etiqueta">Contraseña</span>
+        <input id="clave" type="password" autocomplete="current-password" required></label>
+      <p class="error" id="error-acceso" role="alert" hidden>Contraseña incorrecta.</p>
+      <div class="acciones"><button type="submit" class="btn btn-primario">Entrar</button></div>
+    </form>
+  </section>
+
+  <!-- Banco -->
+  <section id="vista-banco" class="vista" hidden>
+    <div class="bloque">
+      <div class="titulo-fila">
+        <h2 class="titulo-bloque">Resumen</h2>
+        <button type="button" class="btn-texto" id="btn-salir">Cerrar sesión</button>
+      </div>
+      <div class="leyenda">
+        <span class="nota n3">3 · Correcta</span>
+        <span class="nota n2">2 · Aceptable</span>
+        <span class="nota n1">1 · Poco adecuada</span>
+        <span class="nota n0">0 · Incompatible</span>
+      </div>
+      <p class="ayuda" id="resumen"></p>
+    </div>
+
+    <details class="bloque glosario">
+      <summary>Glosario de códigos radiales y DEFCON</summary>
+      <div class="glosario-rejilla" id="glosario"></div>
+    </details>
+
+    <div class="bloque filtros">
+      <label class="campo"><span class="etiqueta">Buscar</span>
+        <input id="buscar" type="search" placeholder="Texto, código radial, regla…" autocomplete="off"></label>
+      <label class="campo"><span class="etiqueta">Competencia</span>
+        <select id="filtro-comp"><option value="">Todas</option></select></label>
+    </div>
+
+    <div id="lista" class="lista-preguntas"></div>
+    <p class="ayuda vacio" id="sin-resultados" hidden>No hay preguntas que coincidan con la búsqueda.</p>
+  </section>
+</main>
+
+<footer class="pie">Hospital Central · Departamento de Salud Mental y Evaluación Psicológica · Uso exclusivo de rol</footer>
+<!--/APP-->
+
+<script src="js/preguntas.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

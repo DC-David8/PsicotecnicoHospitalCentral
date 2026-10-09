@@ -49,6 +49,18 @@ Los umbrales se cambian en `js/evaluacion.js` → `CRITERIOS`.
 - **Apto (≥ 90 %)**: *La evaluada muestra un criterio excelente para el servicio. Destaca su templanza bajo presión, así como su integridad y apego al protocolo. Demuestra una actuación profesional sólida y fiable.*
 - **No apto**: *El evaluado muestra un criterio insuficiente para el servicio en este momento. Presenta respuestas incompatibles con el protocolo de actuación. Se recomienda reforzar el autocontrol y el uso proporcional de la fuerza antes de una nueva evaluación.*
 
+## Acceso evaluadores
+
+En el pie de la web hay un enlace **Acceso evaluadores** (`admin.html`) protegido con contraseña. Muestra:
+
+- Las 60 preguntas con sus 4 respuestas ordenadas de mejor a peor y su puntuación (correcta, aceptable, poco adecuada o incompatible).
+- Un buscador y un filtro por competencia.
+- El glosario de códigos radiales, códigos especiales y niveles DEFCON de la Normativa Policial.
+
+**Cambiar la contraseña:** calcula la huella SHA-256 de la nueva contraseña (en una terminal: `echo -n "NuevaContraseña" | sha256sum`) y sustitúyela en `js/admin.js` → `CLAVE_SHA256`.
+
+> Es una web estática: la contraseña evita miradas casuales, pero no es seguridad real. Quien sepa abrir el código fuente puede leer `js/preguntas.js`.
+
 ## Estructura
 
 ```
@@ -59,6 +71,7 @@ Los umbrales se cambian en `js/evaluacion.js` → `CRITERIOS`.
 ├── js/certificado.js     Dibujo del certificado (canvas 1224 × 2016)
 ├── js/pdf.js             Exportación a PDF sin librerías externas
 ├── js/app.js             Flujo de la aplicación
+├── admin.html / js/admin.js  Acceso evaluadores (banco completo y glosario)
 └── assets/               Logo EMS, sello oficial y escudos de las facciones (assets/facciones)
 ```
 
