@@ -7,7 +7,7 @@ const CERT = { W: 1224, H: 2016 };
 const CERT_COLORES = { gris: "#D3D3D3", azul: "#1A9AD6", marino: "#1F4E79", tinta: "#111111", firma: "#1B2E6B" };
 const FACCIONES = {
   LSPD: "Los Santos Police Department",
-  LSSD: "Los Santos Sheriff's Department",
+  LSSD: "Los Santos Sheriff Department",
   FBI: "Federal Bureau of Investigation",
 };
 

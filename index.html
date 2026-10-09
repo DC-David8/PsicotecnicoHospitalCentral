@@ -41,7 +41,7 @@
           <span class="etiqueta" id="lbl-faccion">Facción</span>
           <div class="segmentos faccion" role="radiogroup" aria-labelledby="lbl-faccion">
             <label><input type="radio" name="faccion" id="f-lspd" value="LSPD" checked><span><b>LSPD</b><small>Police Department</small></span></label>
-            <label><input type="radio" name="faccion" id="f-lssd" value="LSSD"><span><b>LSSD</b><small>Sheriff's Department</small></span></label>
+            <label><input type="radio" name="faccion" id="f-lssd" value="LSSD"><span><b>LSSD</b><small>Sheriff Department</small></span></label>
             <label><input type="radio" name="faccion" id="f-fbi" value="FBI"><span><b>FBI</b><small>Federal Bureau</small></span></label>
           </div>
         </div>
@@ -50,14 +50,14 @@
             <input id="nombre" name="nombre" required autocomplete="off" placeholder="Taymor Travon"></label>
           <label class="campo"><span class="etiqueta">ID / Placa</span>
             <input id="placa" name="placa" required autocomplete="off" placeholder="2608" inputmode="numeric"></label>
-          <label class="campo"><span class="etiqueta">Rango</span>
-            <input id="rango" name="rango" required list="rangos" autocomplete="off" placeholder="Cabo"></label>
+          <div class="campo"><label class="etiqueta" for="rango-sel">Rango</label>
+            <select id="rango-sel" name="rango-sel" required></select>
+            <input id="rango" name="rango" autocomplete="off" placeholder="Escribe el rango" aria-label="Rango (escrito a mano)" hidden></div>
           <label class="campo"><span class="etiqueta">Fecha de nacimiento</span>
             <input id="nacimiento" name="nacimiento" type="date" required></label>
           <label class="campo"><span class="etiqueta">Sexo <small>(para redactar el criterio)</small></span>
             <select id="sexo" name="sexo"><option value="M">Masculino</option><option value="F">Femenino</option></select></label>
         </div>
-        <datalist id="rangos"></datalist>
       </fieldset>
 
       <fieldset class="bloque">

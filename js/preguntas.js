@@ -26,7 +26,7 @@ const COMPETENCIAS = {
   },
   decisiones: {
     nombre: "Toma de decisiones",
-    fortaleza: "criterio en la toma de decisiones",
+    fortaleza: "solidez en la toma de decisiones",
     refuerzo: "la toma de decisiones bajo presión",
   },
   equipo: {

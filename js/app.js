@@ -5,11 +5,13 @@
   const $ = (s) => document.querySelector(s);
   const RECURSOS = window.RECURSOS || { logo: "assets/logo-ems.png", sello: "assets/sello-oficial.png" };
 
+  // Rangos oficiales de cada facción, de mayor a menor (tabla de rangos del servidor)
   const RANGOS = {
-    LSPD: ["Cadete", "Oficial I", "Oficial II", "Oficial III", "Cabo", "Sargento", "Teniente", "Capitán", "Comandante", "Subjefe", "Jefe de Policía"],
-    LSSD: ["Cadete", "Deputy I", "Deputy II", "Deputy III", "Cabo", "Sargento", "Teniente", "Capitán", "Mayor", "Subsheriff", "Sheriff"],
-    FBI: ["Agente en prácticas", "Agente Especial", "Agente Especial Sénior", "Agente Supervisor", "Subdirector Adjunto", "Subdirector", "Director"],
+    LSPD: ["Comandante", "Capitán", "Jefe Asuntos Internos", "Jefe de Navy Seals", "Jefe División Metropolitana", "Jefe de Inspectores", "Inspector", "Teniente I", "Sargento III", "Sargento II", "Sargento I", "Oficial III", "Oficial II", "Oficial I", "Suboficial", "Cadete", "Alumno en Pruebas"],
+    LSSD: ["General", "Sheriff", "Sheriff Adjunto", "Mayor General", "Capitán II", "Capitán", "Teniente II", "Teniente", "Sargento Mayor", "Sargento III", "Sargento II", "Sargento", "Cabo Mayor", "Cabo III", "Cabo II", "Cabo", "Alumno"],
+    FBI: ["Director FBI", "Subdirector FBI", "Director Ejecutivo", "Director Asistente", "Subdirector Ejecutivo", "Subdirector Asistente", "Jefe de Área", "Jefe de Supervisores", "Supervisor Especial", "Supervisor Adjunto", "Oficial Especial", "Oficial Adjunto", "Agente Especial", "Agente Adjunto", "Agente de Campo", "Agente de Apoyo", "Agente en Pruebas"],
   };
+  const OTRO = "__otro";
 
   const estado = { datos: null, preguntas: [], respuestas: [], actual: 0, resultado: null, observaciones: "", apto: true, editado: false };
 
@@ -44,8 +46,21 @@
   // ── 1 · Datos ──
   function actualizarRangos() {
     const f = radio("faccion");
-    $("#rangos").innerHTML = RANGOS[f].map((r) => `<option value="${esc(r)}">`).join("");
+    const sel = $("#rango-sel");
+    const previo = sel.value;
+    sel.innerHTML = `<option value="" disabled selected>Selecciona el rango</option>` +
+      RANGOS[f].map((r) => `<option value="${esc(r)}">${esc(r)}</option>`).join("") +
+      `<option value="${OTRO}">Otro (escribir a mano)</option>`;
+    if (previo === OTRO || RANGOS[f].includes(previo)) sel.value = previo;
+    alternarRangoLibre(false);
   }
+  function alternarRangoLibre(enfocar) {
+    const libre = $("#rango-sel").value === OTRO;
+    $("#rango").hidden = !libre;
+    if (libre && enfocar) $("#rango").focus();
+  }
+  const valorRango = () => ($("#rango-sel").value === OTRO ? $("#rango").value.trim() : $("#rango-sel").value || "");
+
   function actualizarValidez() {
     const hasta = sumarMeses($("#fecha-emision").value, Number($("#validez").value));
     const [a, m, d] = hasta ? hasta.split("-") : [];
@@ -65,6 +80,7 @@
     if (ev) { $("#evaluador").value = ev.evaluador || ""; $("#cargo").value = ev.cargo || ""; $("#firma").value = ev.firma || ""; }
     actualizarRangos(); actualizarValidez(); actualizarAyudaNum();
     document.querySelectorAll('input[name="faccion"]').forEach((r) => r.addEventListener("change", actualizarRangos));
+    $("#rango-sel").addEventListener("change", () => { $("#rango-sel").removeAttribute("aria-invalid"); alternarRangoLibre(true); });
     document.querySelectorAll('input[name="num"]').forEach((r) => r.addEventListener("change", actualizarAyudaNum));
     $("#fecha-emision").addEventListener("change", actualizarValidez);
     $("#validez").addEventListener("change", actualizarValidez);
@@ -74,8 +90,13 @@
 
   function comenzar(e) {
     e.preventDefault();
-    const req = ["#nombre", "#placa", "#rango", "#nacimiento", "#fecha-evaluacion", "#fecha-emision", "#evaluador", "#cargo"];
-    const vacios = req.filter((s) => !$(s).value.trim());
+    const req = ["#nombre", "#placa", "#rango-sel", "#rango", "#nacimiento", "#fecha-evaluacion", "#fecha-emision", "#evaluador", "#cargo"];
+    const vacio = (s) => {
+      if (s === "#rango-sel") return !$("#rango-sel").value;
+      if (s === "#rango") return $("#rango-sel").value === OTRO && !$("#rango").value.trim();
+      return !$(s).value.trim();
+    };
+    const vacios = req.filter(vacio);
     req.forEach((s) => $(s).toggleAttribute("aria-invalid", vacios.includes(s)));
     if (vacios.length) {
       $("#error-datos").textContent = "Completa los campos marcados en rojo para comenzar el examen.";
@@ -88,7 +109,7 @@
     estado.datos = {
       nombre: $("#nombre").value.trim(),
       placa: $("#placa").value.trim(),
-      rango: $("#rango").value.trim(),
+      rango: valorRango(),
       nacimiento: $("#nacimiento").value,
       sexo: $("#sexo").value,
       faccion: radio("faccion"),
@@ -280,6 +301,8 @@
     $("#btn-editar").addEventListener("click", () => { irA("resultado"); $("#observaciones").focus(); });
     $("#btn-nueva").addEventListener("click", () => {
       ["#nombre", "#placa", "#rango", "#nacimiento"].forEach((s) => ($(s).value = ""));
+      $("#rango-sel").value = "";
+      alternarRangoLibre(false);
       irA("datos");
       $("#nombre").focus();
     });

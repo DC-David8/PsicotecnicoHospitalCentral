@@ -4,7 +4,7 @@ Herramienta web para el rol del servidor: el personal del **Hospital Central (EM
 
 ## Qué hace
 
-1. **Datos** · Facción (LSPD / LSSD / FBI), nombre, ID/placa, rango, fecha de nacimiento y sexo del agente. Datos del evaluador (nombre, cargo, firma), fechas de evaluación y emisión, y validez del certificado (6, 12 o 24 meses).
+1. **Datos** · Facción (Los Santos Police Department, Los Santos Sheriff Department o Federal Bureau of Investigation), nombre, ID/placa, rango oficial de su facción (o uno escrito a mano), fecha de nacimiento y sexo del agente. Datos del evaluador (nombre, cargo, firma), fechas de evaluación y emisión, y validez del certificado (6, 12 o 24 meses).
 2. **Examen** · Eliges **10, 20, 30, 40, 50 o 60 preguntas**. Se reparten por igual entre las 6 competencias y el orden de preguntas y respuestas se baraja en cada examen.
 3. **Resultado** · Puntuación global y por competencia, veredicto APTO / NO APTO y el **criterio redactado automáticamente**. El evaluador puede editar el texto y cambiar el resultado final si lo considera.
 4. **Certificado** · Se genera el Certificado de Psicotécnico del Hospital Central con todos los datos, listo para **descargar en PNG o PDF**.
@@ -74,7 +74,7 @@ git push -u origin main
 ## Personalizar
 
 - **Añadir o editar preguntas**: `js/preguntas.js`. Copia un bloque `{ c, t, o }` y asigna la competencia en `c`.
-- **Rangos sugeridos por facción**: `js/app.js` → `RANGOS` (el campo admite cualquier texto).
+- **Rangos de cada facción**: `js/app.js` → `RANGOS`. El desplegable incluye la opción "Otro (escribir a mano)" para rangos que no estén en la lista.
 - **Frases del criterio**: `js/preguntas.js` → `COMPETENCIAS` (fortaleza / refuerzo) y `js/evaluacion.js` → `redactarCriterio`.
 - **Logo y sello**: reemplaza los PNG de `assets/` manteniendo el nombre.
 

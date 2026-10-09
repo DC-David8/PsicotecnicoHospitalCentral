@@ -93,7 +93,7 @@ input:not([type=radio]), select, textarea, .dato-fijo {
 }
 textarea { resize: vertical; line-height: 1.5; }
 input:hover, select:hover, textarea:hover { border-color: var(--muted); }
-input[aria-invalid="true"] { border-color: var(--bad); background: var(--bad-bg); }
+input[aria-invalid], select[aria-invalid] { border-color: var(--bad); background: var(--bad-bg); }
 .dato-fijo { display: flex; align-items: center; font-family: var(--f-mono); font-weight: 600; color: var(--accent); }
 .ayuda { margin: 0; font-size: 13px; color: var(--muted); }
 .error { margin: 0; padding: 10px 14px; border-radius: 7px; background: var(--bad-bg); color: var(--bad); font-weight: 600; }
