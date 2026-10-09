@@ -17,7 +17,7 @@
   };
   const OTRO = "__otro";
   // Cargos del Hospital Central, de mayor a menor
-  const CARGOS = ["Director General", "Subdirector General", "Supervisor/a", "Médico/a Residente", "Cirujano/a", "Doctor/a", "Enfermero/a", "Auxiliar", "Celador/a", "En prácticas"];
+  const CARGOS = ["Director/a General", "Sub-director/a General", "Supervisor/a", "Médico/a Residente", "Cirujano/a", "Doctor/a", "Enfermero/a", "Auxiliar", "Celador/a", "En prácticas"];
 
   const estado = { datos: null, preguntas: [], respuestas: [], actual: 0, resultado: null, observaciones: "", apto: true, editado: false };
 

@@ -74,7 +74,7 @@ git push -u origin main
 ## Personalizar
 
 - **Añadir o editar preguntas**: `js/preguntas.js`. Copia un bloque `{ c, t, o }` y asigna la competencia en `c`.
-- **Cargos del Hospital Central**: `js/app.js` → `CARGOS` (de Director General a En prácticas, con opción de escribir otro).
+- **Cargos del Hospital Central**: `js/app.js` → `CARGOS` (de Director/a General a En prácticas, con opción de escribir otro).
 - **Rangos de cada facción**: `js/app.js` → `RANGOS`. El desplegable incluye la opción "Otro (escribir a mano)" para rangos que no estén en la lista.
 - **Frases del criterio**: `js/preguntas.js` → `COMPETENCIAS` (fortaleza / refuerzo) y `js/evaluacion.js` → `redactarCriterio`.
 - **Logo, sello y escudos**: reemplaza los PNG de `assets/` y `assets/facciones/` manteniendo el nombre.
