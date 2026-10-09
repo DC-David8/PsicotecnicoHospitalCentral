@@ -56,6 +56,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ── Cabecera ── */
 .cabecera { background: var(--head-bg); color: var(--head-ink); border-bottom: 4px solid var(--ems); }
+/* Como app de inicio en iPhone la barra de estado es translúcida: la cabecera se extiende por debajo */
+.cabecera { padding-top: env(safe-area-inset-top, 0px); }
+body { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.pie { padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px)); }
 .cabecera-in, .pasos { max-width: 860px; margin: 0 auto; padding-inline: 16px; }
 .cabecera-in { display: flex; align-items: center; gap: 14px; padding-block: 18px 12px; }
 .cabecera-logo { width: 52px; height: 52px; flex: none; }

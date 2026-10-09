@@ -61,6 +61,19 @@ En el pie de la web hay un enlace **Acceso evaluadores** (`admin.html`) protegid
 
 > Es una web estática: la contraseña evita miradas casuales, pero no es seguridad real. Quien sepa abrir el código fuente puede leer `js/preguntas.js`.
 
+## Añadir a la pantalla de inicio (iPhone / Android)
+
+Las dos páginas se pueden instalar como app:
+
+- **Psicotécnico** (`index.html`): icono del EMS.
+- **Evaluadores** (`admin.html`): icono del EMS con un candado dorado.
+
+Cada una tiene su manifiesto (`manifest.webmanifest`, `manifest-admin.webmanifest`), su icono de Apple y su pantalla de arranque para cada tamaño de iPhone (`assets/app/`). En iPhone: Safari → Compartir → **Añadir a pantalla de inicio**.
+
+Desde la app instalada, los botones de descarga abren el menú Compartir para guardar el certificado en Archivos o Fotos, o enviarlo directamente.
+
+> Si ya tenías el acceso creado antes de este cambio, bórralo y vuelve a añadirlo: iPhone guarda el icono antiguo.
+
 ## Estructura
 
 ```
@@ -72,6 +85,7 @@ En el pie de la web hay un enlace **Acceso evaluadores** (`admin.html`) protegid
 ├── js/pdf.js             Exportación a PDF sin librerías externas
 ├── js/app.js             Flujo de la aplicación
 ├── admin.html / js/admin.js  Acceso evaluadores (banco completo y glosario)
+├── manifest*.webmanifest  Manifiestos de app web
 └── assets/               Logo EMS, sello oficial y escudos de las facciones (assets/facciones)
 ```
 

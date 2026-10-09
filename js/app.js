@@ -319,7 +319,20 @@
     }
   }
 
+  // ¿Se está usando como app de inicio (iPhone/Android)?
+  const esAppInstalada = () =>
+    window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+
   function descargar(blob, nombre) {
+    // En la app de inicio del iPhone una descarga normal abre el archivo sin botón para volver,
+    // así que se usa el menú Compartir (Guardar en Archivos, Guardar imagen, WhatsApp, Discord…).
+    if (esAppInstalada() && navigator.canShare) {
+      const archivo = new File([blob], nombre, { type: blob.type });
+      if (navigator.canShare({ files: [archivo] })) {
+        navigator.share({ files: [archivo], title: nombre }).catch(() => { /* el usuario cerró el menú */ });
+        return;
+      }
+    }
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url; a.download = nombre;
@@ -331,8 +344,16 @@
     }
   }
 
+  // Convierte el lienzo a PNG de forma inmediata (sin esperar), para no perder el permiso del toque en iPhone
+  function lienzoAPng(canvas) {
+    const bin = atob(canvas.toDataURL("image/png").split(",")[1]);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], { type: "image/png" });
+  }
+
   function iniciarCertificado() {
-    $("#btn-png").addEventListener("click", () => $("#lienzo").toBlob((b) => descargar(b, nombreArchivo() + ".png"), "image/png"));
+    $("#btn-png").addEventListener("click", () => descargar(lienzoAPng($("#lienzo")), nombreArchivo() + ".png"));
     $("#btn-pdf").addEventListener("click", () => {
       const blob = crearPdfDesdeCanvas($("#lienzo"), 612, 1008, `Certificado de Psicotécnico · ${estado.datos.nombre}`);
       descargar(blob, nombreArchivo() + ".pdf");

@@ -1,0 +1,32 @@
+{
+  "name": "Evaluadores · Hospital Central",
+  "short_name": "Evaluadores",
+  "description": "Banco de preguntas del psicotécnico para evaluadores.",
+  "lang": "es",
+  "start_url": "./admin.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1A2A",
+  "theme_color": "#16304B",
+  "icons": [
+    {
+      "src": "assets/app/icon-admin-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/app/icon-admin-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/app/icon-admin-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
